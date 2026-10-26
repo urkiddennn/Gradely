@@ -18,7 +18,7 @@
     <meta name="author" content="Gradely" />
     <meta name="robots" content="index, follow, max-image-preview:large" />
     <meta name="application-name" content="Gradely" />
-    <link rel="canonical" href="https://gradely.app/" />
+    <link rel="canonical" href="%VITE_SITE_URL%/" />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
@@ -28,8 +28,8 @@
       property="og:description"
       content="Custom grading schemes, lecture and lab weights, term-by-term computations, and real-time GWA tracking. Built for students."
     />
-    <meta property="og:url" content="https://gradely.app/" />
-    <meta property="og:image" content="https://gradely.app/og-image.png" />
+    <meta property="og:url" content="%VITE_SITE_URL%/" />
+    <meta property="og:image" content="%VITE_SITE_URL%/og-image.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="Gradely student grade tracker dashboard" />
@@ -42,7 +42,7 @@
       name="twitter:description"
       content="Build the grading system your school actually uses. Track scores, term grades, and your GWA in one clean dashboard."
     />
-    <meta name="twitter:image" content="https://gradely.app/og-image.png" />
+    <meta name="twitter:image" content="%VITE_SITE_URL%/og-image.png" />
 
     <!-- Icons & manifest -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -52,7 +52,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preconnect" href="https://hhvnekdkddhusvfxadpy.supabase.co" />
+    <link rel="preconnect" href="%VITE_SUPABASE_URL%" />
     <link
       href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&display=swap"
       rel="stylesheet"
@@ -78,7 +78,7 @@
         "@context": "https://schema.org",
         "@type": "WebApplication",
         "name": "Gradely",
-        "url": "https://gradely.app/",
+        "url": "%VITE_SITE_URL%/",
         "description": "A free student grade tracker with customizable grading schemes, lecture and laboratory weight splits, term computations, and real-time GWA calculations.",
         "applicationCategory": "EducationalApplication",
         "operatingSystem": "Any",

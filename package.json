@@ -6,7 +6,7 @@
   "description": "Gradely — a clean, student-focused grade tracker with custom grading schemes and real-time GWA computation.",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && node scripts/generate-seo.mjs",
     "preview": "vite preview"
   },
   "dependencies": {

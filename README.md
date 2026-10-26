@@ -100,8 +100,10 @@ point and remarks always come from the scheme's own scale.
 - `public/robots.txt` allows the landing page and disallows `/app` and `/auth`.
 - `public/sitemap.xml` lists the landing page.
 - App and auth routes set `noindex` at runtime via `useSeo`.
-- Before deploying, update the domain in `index.html`, `public/robots.txt`,
-  `public/sitemap.xml`, and `VITE_SITE_URL`.
+- **Set `VITE_SITE_URL` once** (no trailing slash). Canonical/Open Graph tags in
+  `index.html` use the `%VITE_SITE_URL%` placeholder, and
+  `scripts/generate-seo.mjs` rewrites `robots.txt` and `sitemap.xml` in `dist/` during
+  `npm run build`. The files under `public/` are development fallbacks.
 
 ## Deploy
 
@@ -110,7 +112,9 @@ The app is a single-page app, so the host must rewrite unknown routes to `index.
 - **Vercel:** `vercel.json` is included with the rewrite and basic security headers.
 - **Netlify:** `public/_redirects` is included.
 - **Any static host:** add a catch-all rewrite to `/index.html`, and set the three
-  `VITE_` environment variables at build time.
+  `VITE_` environment variables at build time. Set `VITE_SITE_URL` to the final domain
+  (for example `https://gradely.yourdomain.com`) so the build emits the right canonical,
+  sitemap, and robots URLs.
 
 ```bash
 npm run build
