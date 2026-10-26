@@ -1,0 +1,23 @@
+{
+  "name": "Gradely — Student Grade Tracker",
+  "short_name": "Gradely",
+  "description": "Track scores, customize grading schemes, and compute your GWA in real time.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f5f4ef",
+  "theme_color": "#146c58",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}
