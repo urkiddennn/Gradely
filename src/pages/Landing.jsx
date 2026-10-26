@@ -12,7 +12,6 @@ import {
   Moon,
   ShieldCheck,
   SlidersHorizontal,
-  Sparkles,
   Sun,
   TrendingUp,
 } from "lucide-react";
@@ -23,26 +22,26 @@ import { Logo } from "../components/ui";
 const FEATURES = [
   {
     icon: SlidersHorizontal,
-    title: "Custom grading schemes",
+    title: "Make it fit your class",
     description:
-      "Match the exact system your college uses. Set lecture vs. lab weights, term splits, and every sub-component weight.",
-    points: ["Lecture & lab split", "Unlimited components", "Reusable per subject"],
+      "Choose how much quizzes, projects, exams, and lab work count. Save the setup and use it again for another class.",
+    points: ["Class + lab", "Any activity", "Reusable"],
     visual: "weights",
   },
   {
     icon: CalendarRange,
-    title: "Term & semester computations",
+    title: "See each term clearly",
     description:
-      "Prelim, midterm, pre-final, and finals each carry their own weight. Gradely rolls them up into a semester grade automatically.",
-    points: ["4 weighted terms", "Semester roll-up", "Progress at a glance"],
+      "Add scores as you get them. Each term and your semester average update right away, without any formulas.",
+    points: ["Four terms", "Semester average", "Always current"],
     visual: "terms",
   },
   {
     icon: TrendingUp,
-    title: "Real-time GPA / GWA",
+    title: "Know where you stand",
     description:
-      "Every score updates your standing immediately. Map percentages to your school's grade scale and track GWA across subjects.",
-    points: ["Custom scale mapping", "Unit-weighted GWA", "Instant status tags"],
+      "Your grade scale turns percentages into the grade you recognize, and your overall average stays up to date.",
+    points: ["Your own scale", "Overall average", "Clear status"],
     visual: "scale",
   },
 ];
@@ -50,21 +49,21 @@ const FEATURES = [
 const STEPS = [
   {
     number: "01",
-    title: "Create your grading scheme",
+    title: "Set up your grading",
     description:
-      "Start from a standard lecture + lab template, then adjust the weights until it mirrors your syllabus.",
+      "Start with a ready-made setup or make your own. Choose what counts and how much.",
   },
   {
     number: "02",
-    title: "Add your subjects",
+    title: "Add your courses",
     description:
-      "Pick a scheme for each course, set its units, and mark whether it has a laboratory component.",
+      "Add each class, its units, and choose the grade setup it uses.",
   },
   {
     number: "03",
-    title: "Log scores and watch it compute",
+    title: "Add scores as you go",
     description:
-      "Enter a raw score or a percentage. Term grades, semester grades, and your GWA update on the spot.",
+      "Enter points or a percentage. Your term and semester grades update automatically.",
   },
 ];
 
@@ -75,24 +74,29 @@ const FAQS = [
       "Yes. Gradely is free for students, with no credit card required. Create an account and start tracking your grades in minutes.",
   },
   {
-    question: "Can I customize my grading weights?",
+    question: "Can I set up grading the way my class does?",
     answer:
-      "Yes. You can set lecture and laboratory splits, term weights, and sub-component weights such as quizzes, group discussions, chapter exams, lab manuals, and practical exams.",
+      "Yes. Choose how much quizzes, projects, exams, and lab work count, save the setup, and reuse it for other classes with the same rules.",
   },
   {
-    question: "Does Gradely compute my GWA or GPA?",
+    question: "Does Gradely calculate my GPA or GWA?",
     answer:
-      "Gradely converts every percentage through the grading scale attached to your scheme, then combines subjects by unit to estimate your GWA. You can define your own scale ranges, grade points, and remarks.",
+      "Yes. Gradely turns your percentages into the grades on your school's scale and keeps an overall average across your courses.",
+  },
+  {
+    question: "Do I need a spreadsheet?",
+    answer:
+      "No. Gradely keeps your courses, scores, and averages together so you can stop maintaining separate spreadsheet tabs.",
   },
   {
     question: "Is my grade data private?",
     answer:
-      "Yes. Student accounts are protected with Supabase Authentication, and Row Level Security ensures you can only read and write your own schemes, subjects, and grade entries.",
+      "Yes. Only you can see your courses, scores, and grades.",
   },
   {
-    question: "Does Gradely work on mobile?",
+    question: "Does Gradely work on my phone?",
     answer:
-      "Yes. The dashboard, grade entry forms, and scheme editor are fully responsive, so you can record a score right after class on your phone.",
+      "Yes. You can add a score right after class on your phone or review your grades on a larger screen.",
   },
 ];
 
@@ -125,9 +129,6 @@ function Header() {
           <a href="#how-it-works" className="transition hover:text-ink">
             How it works
           </a>
-          <a href="#grading" className="transition hover:text-ink">
-            Grading system
-          </a>
           <a href="#faq" className="transition hover:text-ink">
             FAQ
           </a>
@@ -153,10 +154,10 @@ function Header() {
 
 function DashboardPreview() {
   const subjects = [
-    { code: "CS 201", name: "Data Structures", point: "1.50", value: 91 },
-    { code: "CS 202", name: "Discrete Mathematics", point: "1.75", value: 88 },
-    { code: "PHY 201", name: "Physics for CS", point: "2.00", value: 85 },
-    { code: "ENG 203", name: "Technical Writing", point: "1.25", value: 94 },
+    { code: "CS", name: "Data Structures", point: "1.50", value: 91 },
+    { code: "MA", name: "Discrete Mathematics", point: "1.75", value: 88 },
+    { code: "PH", name: "Physics for CS", point: "2.00", value: 85 },
+    { code: "EN", name: "Technical Writing", point: "1.25", value: 94 },
   ];
   const terms = [
     { label: "P", value: 88 },
@@ -180,23 +181,20 @@ function DashboardPreview() {
             </p>
             <p className="mt-0.5 text-sm font-semibold text-ink">BS Computer Science</p>
           </div>
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-positive/25 bg-positive-soft px-2.5 py-1 text-[0.65rem] font-semibold text-positive">
-            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-positive" />
-            Live
-          </span>
+          <span className="text-[0.65rem] font-medium text-faint">4 courses</span>
         </div>
 
         <div className="p-5">
           <div className="flex items-end justify-between gap-4">
             <div>
-              <p className="text-xs font-medium text-muted">Estimated GWA</p>
+              <p className="text-xs font-medium text-muted">Overall average</p>
               <div className="mt-0.5 flex items-baseline gap-2">
                 <span className="font-display text-[2.6rem] leading-none text-ink">1.63</span>
                 <span className="pb-1 text-xs font-semibold text-positive">Excellent</span>
               </div>
               <p className="mt-2 flex items-center gap-1 text-[0.68rem] font-medium text-positive">
                 <TrendingUp size={12} />
-                Up 0.12 from prelim
+                Up this term
               </p>
             </div>
             <div className="text-right">
@@ -211,11 +209,11 @@ function DashboardPreview() {
           <div className="mt-5 space-y-2">
             {subjects.map((subject) => (
               <div
-                key={subject.code}
+                key={subject.name}
                 className="flex items-center gap-3 rounded-xl border border-line bg-surface-2/35 px-3 py-2.5"
               >
                 <span className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-surface text-[0.58rem] font-bold text-accent">
-                  {subject.code.split(" ")[0]}
+                  {subject.code}
                 </span>
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center justify-between gap-2">
@@ -269,21 +267,6 @@ function DashboardPreview() {
           </div>
         </div>
       </div>
-
-      <div className="absolute -bottom-7 left-2 hidden animate-fade-up items-center gap-2.5 rounded-2xl border border-line bg-surface px-3.5 py-2.5 shadow-card [animation-delay:500ms] sm:flex">
-        <span className="grid h-8 w-8 place-items-center rounded-lg bg-positive-soft text-positive">
-          <Check size={15} strokeWidth={3} />
-        </span>
-        <div>
-          <p className="text-[0.68rem] font-semibold text-ink">Chapter Exam graded</p>
-          <p className="text-[0.6rem] text-muted">CS 201 · 92 / 100</p>
-        </div>
-      </div>
-
-      <div className="absolute -right-3 -top-4 hidden animate-fade-up items-center gap-2 rounded-full border border-line bg-surface px-3 py-2 shadow-card [animation-delay:700ms] sm:flex">
-        <Sparkles size={13} className="text-accent" />
-        <span className="text-[0.65rem] font-semibold text-ink">60 / 40 lab split</span>
-      </div>
     </div>
   );
 }
@@ -302,10 +285,7 @@ function Hero() {
 
       <div className="relative mx-auto grid max-w-6xl items-center gap-14 px-4 pb-16 pt-12 sm:px-6 sm:pt-16 lg:grid-cols-[1.02fr_0.98fr] lg:gap-12 lg:px-8 lg:pb-24 lg:pt-24">
         <div className="max-w-2xl">
-          <div className="eyebrow animate-fade-up">
-            <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-            Built for students, not spreadsheets
-          </div>
+          <p className="eyebrow animate-fade-up">A simple grade tracker</p>
 
           <h1 className="mt-5 animate-fade-up text-[2.55rem] font-semibold leading-[0.98] tracking-[-0.055em] text-ink [animation-delay:80ms] sm:text-[3.6rem] lg:text-[4.2rem]">
             Take Control of Your{" "}
@@ -316,9 +296,8 @@ function Hero() {
           </h1>
 
           <p className="mt-5 max-w-xl animate-fade-up text-base leading-relaxed text-muted [animation-delay:160ms] sm:text-[1.0625rem]">
-            One calm place for every quiz, lab report, and exam. Build the grading scheme
-            your school actually uses, log your scores, and see your term grade and GWA
-            update in real time.
+            Keep your scores, classes, and grades in one calm place. Set up grading the
+            way your course works, add scores as you go, and always know where you stand.
           </p>
 
           <div className="mt-7 flex animate-fade-up flex-col gap-2.5 [animation-delay:240ms] sm:flex-row sm:items-center">
@@ -352,10 +331,10 @@ function Hero() {
       <div className="border-y border-line bg-surface/45">
         <div className="mx-auto grid max-w-6xl grid-cols-2 divide-x divide-line px-4 sm:px-6 lg:grid-cols-4 lg:px-8">
           {[
-            { value: "4", label: "Term weights, fully configurable" },
-            { value: "100%", label: "Custom lecture & lab splits" },
-            { value: "Live", label: "GWA after every score" },
-            { value: "0", label: "Spreadsheets to maintain" },
+            { value: "One place", label: "for every score and class" },
+            { value: "Four terms", label: "tracked through the semester" },
+            { value: "Your scale", label: "grades that match your school" },
+            { value: "Free", label: "for students, always" },
           ].map((stat) => (
             <div key={stat.label} className="px-4 py-5 first:pl-0 sm:px-6 lg:py-6">
               <p className="font-display text-2xl leading-none text-ink sm:text-[1.75rem]">
@@ -374,7 +353,7 @@ function WeightVisual() {
   return (
     <div className="mt-5 rounded-xl border border-line bg-surface-2/50 p-3.5">
       <div className="flex items-center justify-between text-[0.65rem] font-semibold">
-        <span className="text-ink">Lecture · 60%</span>
+        <span className="text-ink">Class · 60%</span>
         <span className="text-muted">Lab · 40%</span>
       </div>
       <div className="mt-2 flex h-2 overflow-hidden rounded-full">
@@ -382,7 +361,7 @@ function WeightVisual() {
         <div className="w-[40%] bg-accent/35" />
       </div>
       <div className="mt-2.5 flex flex-wrap gap-1">
-        {["Quizzes 10%", "SGD 30%", "Exam 60%"].map((item) => (
+        {["Quizzes 20%", "Assignments 20%", "Projects 20%", "Exams 40%"].map((item) => (
           <span key={item} className="chip !py-1 !text-[0.6rem]">
             {item}
           </span>
@@ -447,24 +426,24 @@ function Features() {
     <section id="features" className="scroll-mt-24 py-16 sm:py-20 lg:py-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="max-w-2xl">
-          <p className="eyebrow">Everything in one place</p>
+          <p className="eyebrow">What you get</p>
           <h2 className="mt-4 text-3xl font-semibold tracking-[-0.045em] text-ink sm:text-[2.5rem] sm:leading-[1.05]">
-            Built around the way your school actually grades.
+            Grades, without the spreadsheet.
           </h2>
           <p className="mt-4 text-base leading-relaxed text-muted">
-            Most grade trackers assume one formula. Your syllabus doesn't. Gradely lets
-            you model the real structure — then does the math quietly in the background.
+            Every class counts things differently. Gradely lets you set up your own
+            grading, keep all your scores together, and see your progress without doing
+            the math.
           </p>
         </div>
 
         <div className="mt-10 grid gap-4 lg:grid-cols-3">
-          {FEATURES.map((feature, index) => {
+          {FEATURES.map((feature) => {
             const Visual = VISUALS[feature.visual];
             return (
               <article
                 key={feature.title}
                 className="card group flex flex-col p-6 transition duration-300 hover:-translate-y-1 hover:shadow-card"
-                style={{ animationDelay: `${index * 80}ms` }}
               >
                 <span className="grid h-10 w-10 place-items-center rounded-xl bg-accent-soft text-accent-ink">
                   <feature.icon size={19} />
@@ -505,31 +484,30 @@ function GradingSection() {
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="grid gap-10 lg:grid-cols-2 lg:items-center lg:gap-16">
           <div>
-            <p className="eyebrow">Your rules, not ours</p>
+            <p className="eyebrow">Your grading, your way</p>
             <h2 className="mt-4 text-3xl font-semibold tracking-[-0.045em] text-ink sm:text-[2.5rem] sm:leading-[1.05]">
-              A grading scheme that mirrors your syllabus.
+              Set it up once. Then just add scores.
             </h2>
             <p className="mt-4 text-base leading-relaxed text-muted">
-              Lecture and laboratory carrying different weights? A final exam worth more
-              than the midterm? Set every split once and reuse it across every subject
-              that follows the same structure.
+              Not every class counts quizzes, projects, and exams the same way. Set the
+              percentages once and Gradely handles the math for the rest of the term.
             </p>
             <ul className="mt-6 space-y-3.5">
               {[
                 {
                   icon: Layers,
-                  title: "Multi-tier components",
-                  text: "Group quizzes, discussions, chapter exams, and term exams under lecture or lab.",
+                  title: "Choose what counts",
+                  text: "Quizzes, projects, exams, lab work — add the activities your class actually uses.",
                 },
                 {
                   icon: BarChart3,
-                  title: "Your grade scale",
-                  text: "Map percentage ranges to grade points and remarks — 1.00 to 5.00 or a 4.0 GPA scale.",
+                  title: "Use your school's scale",
+                  text: "Match the grade scale you already know, whether that's 1.00–5.00, A to F, or a 4.0 scale.",
                 },
                 {
                   icon: BookOpen,
-                  title: "Reusable across courses",
-                  text: "Apply one scheme to every subject that shares the same department rules.",
+                  title: "Reuse it anytime",
+                  text: "Save a setup and use it for every class with the same grading rules.",
                 },
               ].map((item) => (
                 <li key={item.title} className="flex gap-3">
@@ -549,18 +527,18 @@ function GradingSection() {
             <div className="flex items-center justify-between border-b border-line px-5 py-4">
               <div>
                 <p className="text-[0.62rem] font-bold uppercase tracking-[0.16em] text-faint">
-                  Scheme editor
+                  Grade setup
                 </p>
                 <p className="mt-0.5 text-sm font-semibold text-ink">
-                  BS Computer Science · Default
+                  Standard Class + Lab
                 </p>
               </div>
-              <span className="chip">Lecture + Lab</span>
+              <span className="chip">Class + Lab</span>
             </div>
             <div className="space-y-4 p-5">
               <div>
                 <div className="flex items-center justify-between text-xs font-semibold">
-                  <span className="text-ink">Lecture / Lab split</span>
+                  <span className="text-ink">Class and lab</span>
                   <span className="text-muted">60% · 40%</span>
                 </div>
                 <div className="mt-2 flex h-2.5 overflow-hidden rounded-full">
@@ -572,14 +550,14 @@ function GradingSection() {
               <div className="grid grid-cols-2 gap-3">
                 <div className="rounded-xl border border-line bg-surface-2/50 p-3">
                   <p className="text-[0.6rem] font-bold uppercase tracking-wider text-faint">
-                    Lecture components
+                    Class activities
                   </p>
                   <div className="mt-2 space-y-1.5">
                     {[
-                      ["Short quizzes", "10%"],
-                      ["Group discussion", "30%"],
-                      ["Chapter exam", "20%"],
-                      ["Term exam", "40%"],
+                      ["Quizzes", "20%"],
+                      ["Assignments", "20%"],
+                      ["Projects", "20%"],
+                      ["Exams", "40%"],
                     ].map(([name, weight]) => (
                       <div
                         key={name}
@@ -593,13 +571,12 @@ function GradingSection() {
                 </div>
                 <div className="rounded-xl border border-line bg-surface-2/50 p-3">
                   <p className="text-[0.6rem] font-bold uppercase tracking-wider text-faint">
-                    Lab components
+                    Lab activities
                   </p>
                   <div className="mt-2 space-y-1.5">
                     {[
-                      ["Pre-conference", "10%"],
-                      ["Post-conference", "10%"],
-                      ["Lab manual", "30%"],
+                      ["Attendance", "10%"],
+                      ["Lab reports", "40%"],
                       ["Practical exam", "50%"],
                     ].map(([name, weight]) => (
                       <div
@@ -617,7 +594,7 @@ function GradingSection() {
               <div className="rounded-xl border border-line">
                 <div className="flex items-center justify-between border-b border-line px-3 py-2">
                   <p className="text-[0.62rem] font-bold uppercase tracking-wider text-faint">
-                    Scale mapping
+                    Grade scale
                   </p>
                   <p className="text-[0.6rem] text-faint">Editable</p>
                 </div>
@@ -652,13 +629,13 @@ function HowItWorks() {
     <section id="how-it-works" className="scroll-mt-24 py-16 sm:py-20 lg:py-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-2xl text-center">
-          <p className="eyebrow">Three steps</p>
+          <p className="eyebrow">How it works</p>
           <h2 className="mt-4 text-3xl font-semibold tracking-[-0.045em] text-ink sm:text-[2.5rem] sm:leading-[1.05]">
-            Set it up once. Stay current all semester.
+            Set up once. Keep it simple all semester.
           </h2>
           <p className="mt-4 text-base leading-relaxed text-muted">
-            No formulas to memorize, no spreadsheet tabs to maintain. Just your syllabus
-            structure and the scores you already have.
+            No formulas to remember, no spreadsheet tabs to maintain. Just your class
+            setup and the scores you already have.
           </p>
         </div>
 
@@ -710,7 +687,7 @@ function Faq() {
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-muted">
             Still curious? Sign up and explore the dashboard — it takes less than two
-            minutes to set up your first subject.
+            minutes to set up your first course.
           </p>
           <Link
             to="/auth?mode=signup"
@@ -766,14 +743,14 @@ function FinalCta() {
             <div className="max-w-2xl">
               <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-[#9fd8c6]">
                 <GraduationCap size={13} />
-                Your semester, in focus
+                For students
               </span>
               <h2 className="mt-4 text-3xl font-semibold tracking-[-0.045em] sm:text-[2.75rem] sm:leading-[1.03]">
-                Your grades are already complicated. Your tracker shouldn't be.
+                Keep your semester in one clear view.
               </h2>
               <p className="mt-4 max-w-xl text-sm leading-relaxed text-[#c5d9d2] sm:text-base">
-                Build your first grading scheme, add a subject, and log one score. Gradely
-                handles the rest — quietly and accurately.
+                Add your courses, set up how they're graded, and let the numbers take care
+                of themselves.
               </p>
             </div>
             <div className="flex w-full shrink-0 flex-col gap-2.5 sm:w-auto sm:flex-row">
@@ -806,8 +783,7 @@ function Footer() {
           <div className="max-w-xs">
             <Logo />
             <p className="mt-3 text-sm leading-relaxed text-muted">
-              A calm grade tracker for students who'd rather understand their standing
-              than wrestle with spreadsheets.
+              A simple place to keep your scores, courses, and grades organized.
             </p>
           </div>
 
@@ -829,7 +805,7 @@ function Footer() {
                 </li>
                 <li>
                   <a href="#grading" className="transition hover:text-ink">
-                    Grading system
+                    Grading setup
                   </a>
                 </li>
               </ul>
@@ -863,7 +839,7 @@ function Footer() {
           <p>© {new Date().getFullYear()} Gradely. Made for students.</p>
           <p className="inline-flex items-center gap-1.5">
             <ShieldCheck size={13} />
-            Secure authentication & private grade data
+            Private by default · Only you can see your grades
           </p>
         </div>
       </div>
@@ -873,9 +849,9 @@ function Footer() {
 
 export default function Landing() {
   useSeo({
-    title: "Gradely — Student Grade Tracker & GWA Calculator",
+    title: "Gradely — A Simple Grade Tracker for Students",
     description:
-      "Take control of your academic performance. Build custom grading schemes with lecture and lab weights, track term grades, and compute your GWA in real time.",
+      "Keep your scores, courses, and grades in one simple place. Set up grading the way your class works and see your progress at a glance.",
     path: "/",
   });
 

@@ -23,8 +23,8 @@ import { SetupScreen } from "./SetupScreen";
 
 const NAV_ITEMS = [
   { to: "/app", label: "Dashboard", icon: LayoutDashboard, end: true },
-  { to: "/app/subjects", label: "Subjects", icon: BookOpen },
-  { to: "/app/schemes", label: "Grading schemes", icon: SlidersHorizontal },
+  { to: "/app/subjects", label: "Courses", icon: BookOpen },
+  { to: "/app/schemes", label: "Grade setups", icon: SlidersHorizontal },
 ];
 
 function ThemeButton({ compact = false }) {
@@ -50,7 +50,7 @@ function SidebarNav({ subjectsCount, schemesCount, onNavigate }) {
   return (
     <nav className="flex-1 space-y-1 px-3" onClick={onNavigate}>
       <p className="px-3 pb-2 pt-4 text-[0.63rem] font-bold uppercase tracking-[0.16em] text-faint">
-        Workspace
+        Menu
       </p>
       {NAV_ITEMS.map((item) => (
         <NavLink
@@ -184,7 +184,7 @@ export function AppShell() {
           {schemaMissing ? (
             <div className="flex items-center gap-2 rounded-xl border border-warning/25 bg-warning-soft px-3 py-2 text-[0.7rem] font-semibold text-warning">
               <AlertCircle size={14} />
-              Database setup needed
+              Finish setup
             </div>
           ) : null}
           <ThemeButton />
@@ -284,7 +284,7 @@ export function AppShell() {
       {signingOut ? (
         <div className="fixed inset-0 z-[130] grid place-items-center bg-canvas/70 backdrop-blur-sm">
           <div className="flex items-center gap-2 rounded-full border border-line bg-surface px-4 py-2 text-sm font-medium text-muted shadow-card">
-            <ChevronRight size={15} className="animate-pulse text-accent" />
+            <ChevronRight size={15} className="text-accent" />
             Signing out…
           </div>
         </div>

@@ -6,14 +6,14 @@
     <meta name="theme-color" content="#f5f4ef" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#0c0d0b" media="(prefers-color-scheme: dark)" />
 
-    <title>Gradely — Student Grade Tracker & GWA Calculator</title>
+    <title>Gradely — A Simple Grade Tracker for Students</title>
     <meta
       name="description"
-      content="Gradely is a free grade tracker for students. Build custom grading schemes, split lecture and lab weights, compute term grades, and see your GWA update in real time."
+      content="Keep your scores, courses, and grades in one simple place. Set up grading the way your class works and see your progress at a glance."
     />
     <meta
       name="keywords"
-      content="grade tracker, student grade calculator, GWA calculator, GPA calculator, grading scheme, lecture lab weights, term grade, academic tracker, college grades"
+      content="student grade tracker, grade organizer, semester grades, GPA tracker, GWA tracker, college grades, high school grades"
     />
     <meta name="author" content="Gradely" />
     <meta name="robots" content="index, follow, max-image-preview:large" />
@@ -23,24 +23,24 @@
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Gradely" />
-    <meta property="og:title" content="Gradely — Take Control of Your Academic Performance" />
+    <meta property="og:title" content="Gradely — A Simple Grade Tracker for Students" />
     <meta
       property="og:description"
-      content="Custom grading schemes, lecture and lab weights, term-by-term computations, and real-time GWA tracking. Built for students."
+      content="Keep every score, course, and grade in one calm place. See your progress at a glance."
     />
     <meta property="og:url" content="%VITE_SITE_URL%/" />
     <meta property="og:image" content="%VITE_SITE_URL%/og-image.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Gradely student grade tracker dashboard" />
+    <meta property="og:image:alt" content="Gradely grade tracker preview" />
     <meta property="og:locale" content="en_US" />
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Gradely — Student Grade Tracker & GWA Calculator" />
+    <meta name="twitter:title" content="Gradely — A Simple Grade Tracker for Students" />
     <meta
       name="twitter:description"
-      content="Build the grading system your school actually uses. Track scores, term grades, and your GWA in one clean dashboard."
+      content="Keep every score, course, and grade in one calm place. See your progress at a glance."
     />
     <meta name="twitter:image" content="%VITE_SITE_URL%/og-image.png" />
 
@@ -79,7 +79,7 @@
         "@type": "WebApplication",
         "name": "Gradely",
         "url": "%VITE_SITE_URL%/",
-        "description": "A free student grade tracker with customizable grading schemes, lecture and laboratory weight splits, term computations, and real-time GWA calculations.",
+        "description": "A simple grade tracker for students. Keep scores organized, set up grading the way each course works, and see your GPA or GWA at a glance.",
         "applicationCategory": "EducationalApplication",
         "operatingSystem": "Any",
         "browserRequirements": "Requires JavaScript and a modern browser.",
@@ -89,12 +89,11 @@
           "priceCurrency": "USD"
         },
         "featureList": [
-          "Custom grading schemes",
-          "Lecture and laboratory weight splits",
-          "Term and semester computations",
-          "Real-time GWA and GPA calculations",
-          "Configurable grading scale mapping",
-          "Mobile-friendly grade tracking"
+          "Keep scores organized by course and term",
+          "Set up class and lab grading",
+          "See term and semester grades",
+          "Track your GPA or GWA",
+          "Works on phone and desktop"
         ]
       }
     </script>
@@ -114,18 +113,26 @@
           },
           {
             "@type": "Question",
-            "name": "Can I customize my grading weights?",
+            "name": "Can I set up grading the way my class does?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Yes. You can set lecture and laboratory splits, term weights, and sub-component weights such as quizzes, group discussions, chapter exams, lab manuals, and practical exams."
+              "text": "Yes. Choose how much quizzes, projects, exams, and lab work count, save the setup, and reuse it for other classes with the same rules."
             }
           },
           {
             "@type": "Question",
-            "name": "Does Gradely compute my GWA or GPA?",
+            "name": "Does Gradely calculate my GPA or GWA?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Gradely converts every percentage through the grading scale attached to your scheme, then combines subjects by unit to estimate your GWA. You can define your own scale ranges, grade points, and remarks."
+              "text": "Yes. Gradely turns your percentages into the grades on your school's scale and keeps an overall average across your courses."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do I need a spreadsheet?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. Gradely keeps your courses, scores, and averages together so you can stop maintaining separate spreadsheet tabs."
             }
           },
           {
@@ -133,7 +140,7 @@
             "name": "Is my grade data private?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Yes. Student accounts are protected with Supabase Authentication, and Row Level Security ensures you can only read and write your own schemes, subjects, and grade entries."
+              "text": "Yes. Only you can see your courses, scores, and grades."
             }
           },
           {
@@ -141,7 +148,7 @@
             "name": "Does Gradely work on mobile?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Yes. The dashboard, grade entry forms, and scheme editor are fully responsive, so you can record a score right after class on your phone."
+              "text": "Yes. You can add a score right after class on your phone or review your grades on a larger screen."
             }
           }
         ]
@@ -154,8 +161,8 @@
       <div style="font-family: system-ui, sans-serif; padding: 40px; max-width: 640px; margin: auto">
         <h1>Gradely</h1>
         <p>
-          Gradely is a student grade tracker with custom grading schemes and real-time GWA
-          computation. Please enable JavaScript to use the app.
+          Gradely is a simple grade tracker for students. Please enable JavaScript to use
+          the app.
         </p>
       </div>
     </noscript>

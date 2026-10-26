@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 
-const DEFAULT_SITE = "https://gradely.app";
+const DEFAULT_SITE = "https://gradelyclass.space";
 
 function loadEnvFile(file = ".env") {
   if (!fs.existsSync(file)) return;

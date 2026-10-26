@@ -100,8 +100,8 @@ export function SetupScreen() {
           </h1>
           <p className="mt-2 max-w-xl text-sm leading-relaxed text-muted">
             Your Gradely account is ready. Run the Gradely schema once in Supabase to
-            create the tables for schemes, subjects, and grades — then everything works
-            instantly.
+            create the tables for grade setups, courses, and scores — then everything
+            works instantly.
           </p>
         </div>
 
@@ -202,8 +202,8 @@ export function SetupScreen() {
           <div className="mt-6 flex items-start gap-2.5 rounded-xl border border-positive/20 bg-positive-soft px-4 py-3">
             <ShieldCheck size={17} className="mt-0.5 shrink-0 text-positive" />
             <p className="text-xs leading-relaxed text-positive">
-              Row Level Security is enabled on every table. Each student can only access
-              their own schemes, subjects, and scores.
+              Your data stays private. Each student can only see their own courses,
+              scores, and grade setups.
             </p>
           </div>
 

@@ -66,7 +66,7 @@ export function AddEntryForm({ subject, scheme, term }) {
     setError("");
 
     if (!selected) {
-      setError("Choose an assessment component first.");
+      setError("Choose an activity first.");
       return;
     }
 
@@ -129,10 +129,9 @@ export function AddEntryForm({ subject, scheme, term }) {
         <div className="flex items-start gap-2.5 rounded-xl border border-warning/25 bg-warning-soft px-3.5 py-3">
           <Info size={15} className="mt-0.5 shrink-0 text-warning" />
           <div>
-            <p className="text-sm font-semibold text-warning">No components available</p>
+            <p className="text-sm font-semibold text-warning">No activities yet</p>
             <p className="mt-1 text-xs leading-relaxed text-warning/85">
-              Add assessment components to this subject's grading scheme before recording
-              scores.
+              Add activities to this course's grade setup before adding scores.
             </p>
           </div>
         </div>
@@ -156,14 +155,14 @@ export function AddEntryForm({ subject, scheme, term }) {
       </div>
 
       <form onSubmit={handleSubmit} className="mt-4 space-y-3.5">
-        <Field label="Assessment component" htmlFor={`${id}-component`}>
+        <Field label="Activity" htmlFor={`${id}-component`}>
           <Select
             id={`${id}-component`}
             value={component}
             onChange={(event) => setComponent(event.target.value)}
           >
             {groups.lecture.length > 0 ? (
-              <optgroup label="Lecture">
+              <optgroup label="Class">
                 {groups.lecture.map((item) => (
                   <option key={item.id} value={item.id}>
                     {item.name} · {item.weight}%
@@ -172,7 +171,7 @@ export function AddEntryForm({ subject, scheme, term }) {
               </optgroup>
             ) : null}
             {groups.lab.length > 0 ? (
-              <optgroup label="Laboratory">
+              <optgroup label="Lab">
                 {groups.lab.map((item) => (
                   <option key={item.id} value={item.id}>
                     {item.name} · {item.weight}%
@@ -186,7 +185,7 @@ export function AddEntryForm({ subject, scheme, term }) {
         <Field
           label="Label"
           htmlFor={`${id}-label`}
-          hint="Optional — e.g. “Quiz 1” or “Chapter 3 exam”."
+          hint="Optional — e.g. “Quiz 1” or “Final project”."
         >
           <Input
             id={`${id}-label`}
@@ -201,8 +200,8 @@ export function AddEntryForm({ subject, scheme, term }) {
           <p className="label">Enter as</p>
           <div className="grid grid-cols-2 gap-1 rounded-xl border border-line bg-surface-2 p-1">
             {[
-              { value: "score", label: "Raw score" },
-              { value: "percentage", label: "Percentage" },
+              { value: "score", label: "Points" },
+              { value: "percentage", label: "Percent" },
             ].map((option) => (
               <button
                 key={option.value}
@@ -252,7 +251,7 @@ export function AddEntryForm({ subject, scheme, term }) {
             </Field>
           </div>
         ) : (
-          <Field label="Percentage" htmlFor={`${id}-percentage`}>
+          <Field label="Percent" htmlFor={`${id}-percentage`}>
             <div className="relative">
               <Input
                 id={`${id}-percentage`}
@@ -283,7 +282,7 @@ export function AddEntryForm({ subject, scheme, term }) {
                   <BookOpen size={12} className="text-accent" />
                 )}
                 {selected.name} · {selected.weight}% of{" "}
-                {selected.group === "lab" ? "lab" : "lecture"}
+                {selected.group === "lab" ? "lab" : "class work"}
               </span>
               <span className="text-xs font-bold text-ink">
                 {preview == null ? "—" : formatPercent(preview)}

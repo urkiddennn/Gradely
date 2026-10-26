@@ -3,8 +3,8 @@ import { createPortal } from "react-dom";
 import {
   AlertTriangle,
   Check,
+  FileText,
   Loader2,
-  Sparkles,
   X,
 } from "lucide-react";
 import { cn, getInitialsColor, initials } from "../lib/utils";
@@ -322,7 +322,7 @@ export function LoadingScreen({ label = "Loading your dashboard…" }) {
   );
 }
 
-export function EmptyState({ icon: Icon = Sparkles, title, description, action, className }) {
+export function EmptyState({ icon: Icon = FileText, title, description, action, className }) {
   return (
     <div
       className={cn(

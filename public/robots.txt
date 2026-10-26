@@ -4,4 +4,4 @@ Disallow: /app
 Disallow: /app/
 Disallow: /auth
 
-Sitemap: https://gradely.app/sitemap.xml
+Sitemap: https://gradelyclass.space/sitemap.xml

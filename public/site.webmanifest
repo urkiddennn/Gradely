@@ -1,7 +1,7 @@
 {
   "name": "Gradely — Student Grade Tracker",
   "short_name": "Gradely",
-  "description": "Track scores, customize grading schemes, and compute your GWA in real time.",
+  "description": "Keep your scores, courses, and grades in one simple place.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",

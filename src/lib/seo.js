@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-const FALLBACK_SITE = "https://gradely.app";
+const FALLBACK_SITE = "https://gradelyclass.space";
 
 export const SITE_URL = (import.meta.env.VITE_SITE_URL || FALLBACK_SITE).replace(/\/$/, "");
 
@@ -57,5 +57,5 @@ export function useSeo({
 }
 
 export function pageTitle(page) {
-  return page ? `${page} · Gradely` : "Gradely — Student Grade Tracker & GWA Calculator";
+  return page ? `${page} · Gradely` : "Gradely — A Simple Grade Tracker for Students";
 }

@@ -17,16 +17,15 @@ export const DEFAULT_TERM_WEIGHTS = {
 };
 
 export const DEFAULT_LECTURE_COMPONENTS = [
-  { id: "lec_quiz", name: "Short Quizzes", weight: 10 },
-  { id: "lec_sgd", name: "Small Group Discussion", weight: 30 },
-  { id: "lec_chapter_exam", name: "Chapter Exam", weight: 20 },
-  { id: "lec_term_exam", name: "Term Exam", weight: 40 },
+  { id: "lec_quiz", name: "Quizzes", weight: 20 },
+  { id: "lec_assignment", name: "Assignments", weight: 20 },
+  { id: "lec_project", name: "Projects", weight: 20 },
+  { id: "lec_exam", name: "Exams", weight: 40 },
 ];
 
 export const DEFAULT_LAB_COMPONENTS = [
-  { id: "lab_preconf", name: "Pre-Conference", weight: 10 },
-  { id: "lab_postconf", name: "Post-Conference", weight: 10 },
-  { id: "lab_manual", name: "Lab Manual", weight: 30 },
+  { id: "lab_attendance", name: "Attendance", weight: 10 },
+  { id: "lab_report", name: "Lab Reports", weight: 40 },
   { id: "lab_practical", name: "Practical Exam", weight: 50 },
 ];
 
@@ -306,7 +305,7 @@ export function yearSummary(subjects = [], schemesById = {}, entriesBySubject = 
   };
 }
 
-export function createStarterScheme(title = "Standard Lecture + Lab") {
+export function createStarterScheme(title = "Standard Class + Lab") {
   return {
     title,
     lecture_weight: 60,
@@ -366,20 +365,20 @@ export function validateSchemeDraft(draft) {
   for (const key of groups) {
     const components = draft[key] || [];
     if (components.length === 0) {
-      errors[key] = "Add at least one component.";
+      errors[key] = "Add at least one activity.";
       continue;
     }
     if (components.some((component) => !String(component.name || "").trim())) {
-      errors[key] = "Every component needs a name.";
+      errors[key] = "Every activity needs a name.";
       continue;
     }
     if (components.some((component) => toNumber(component.weight) < 0)) {
-      errors[key] = "Component weights cannot be negative.";
+      errors[key] = "Activity percentages cannot be negative.";
       continue;
     }
     const total = sum(components.map((component) => toNumber(component.weight)));
     if (Math.abs(total - 100) > 0.01) {
-      errors[key] = "Component weights need to add up to 100%.";
+      errors[key] = "Activity percentages need to add up to 100%.";
     }
   }
 

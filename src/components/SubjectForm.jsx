@@ -55,7 +55,7 @@ export function SubjectForm({ open, onClose, subject, schemes, onSaved }) {
     const nextErrors = {};
     if (!draft.code.trim()) nextErrors.code = "Enter the course code.";
     if (!draft.name.trim()) nextErrors.name = "Enter the course name.";
-    if (!draft.scheme_id) nextErrors.scheme_id = "Choose a grading scheme.";
+    if (!draft.scheme_id) nextErrors.scheme_id = "Choose a grade setup.";
     if (toNumber(draft.units) <= 0) nextErrors.units = "Units must be greater than 0.";
     setErrors(nextErrors);
     if (Object.keys(nextErrors).length > 0) return;
@@ -64,15 +64,15 @@ export function SubjectForm({ open, onClose, subject, schemes, onSaved }) {
     try {
       if (subject) {
         await updateSubject(subject.id, draft);
-        toast.success("Subject updated.");
+        toast.success("Course updated.");
       } else {
         await createSubject(draft);
-        toast.success("Subject added.");
+        toast.success("Course added.");
       }
       onSaved?.();
       onClose?.();
     } catch (error) {
-      toast.error(error?.message || "Could not save the subject.");
+      toast.error(error?.message || "Could not save the course.");
     } finally {
       setSaving(false);
     }
@@ -82,8 +82,8 @@ export function SubjectForm({ open, onClose, subject, schemes, onSaved }) {
     <Modal
       open={open}
       onClose={saving ? () => {} : onClose}
-      title={subject ? "Edit subject" : "Add a subject"}
-      description="Give this course its own scheme, units, and lab setting."
+      title={subject ? "Edit course" : "Add a course"}
+      description="Give this course its own grade setup, units, and lab setting."
       size="lg"
       footer={
         <>
@@ -91,7 +91,7 @@ export function SubjectForm({ open, onClose, subject, schemes, onSaved }) {
             Cancel
           </Button>
           <Button type="submit" form="subject-form" icon={Save} loading={saving}>
-            {subject ? "Save changes" : "Add subject"}
+            {subject ? "Save changes" : "Add course"}
           </Button>
         </>
       }
@@ -121,13 +121,13 @@ export function SubjectForm({ open, onClose, subject, schemes, onSaved }) {
         </div>
 
         <Field
-          label="Grading scheme"
+          label="Grade setup"
           htmlFor="subject-scheme"
           error={errors.scheme_id}
           hint={
             normalized
-              ? `Lecture ${normalized.lecture_weight}% · Lab ${normalized.lab_weight}% · ${normalized.scale_mappings.length} grade ranges`
-              : "Create a scheme first if the list is empty."
+              ? `Class ${normalized.lecture_weight}% · Lab ${normalized.lab_weight}% · ${normalized.scale_mappings.length} grade ranges`
+              : "Create a grade setup first if the list is empty."
           }
         >
           <Select
@@ -135,7 +135,7 @@ export function SubjectForm({ open, onClose, subject, schemes, onSaved }) {
             value={draft.scheme_id}
             onChange={(event) => patch({ scheme_id: event.target.value })}
           >
-            <option value="">Select a grading scheme</option>
+            <option value="">Select a grade setup</option>
             {schemes.map((scheme) => (
               <option key={scheme.id} value={scheme.id}>
                 {scheme.title}
@@ -147,8 +147,8 @@ export function SubjectForm({ open, onClose, subject, schemes, onSaved }) {
         <Switch
           checked={draft.has_lab}
           onChange={(value) => patch({ has_lab: value })}
-          label="This subject has a laboratory component"
-          description="Lab scores will be computed separately and blended using the scheme's lab weight."
+          label="This course has a lab"
+          description="Lab scores are tracked separately and combined with your class work."
         />
 
         <div className="grid grid-cols-2 gap-3">
@@ -201,7 +201,7 @@ export function SubjectForm({ open, onClose, subject, schemes, onSaved }) {
                 ) : (
                   <BookOpen size={14} className="text-accent" />
                 )}
-                {draft.has_lab ? "Lecture + Laboratory" : "Lecture only"}
+                {draft.has_lab ? "Class + Lab" : "No lab"}
               </span>
               <span className="text-faint">{selectedScheme.title}</span>
             </div>
@@ -220,7 +220,7 @@ export function SubjectForm({ open, onClose, subject, schemes, onSaved }) {
               ) : null}
             </div>
             <div className="mt-1.5 flex justify-between text-[0.64rem] text-faint">
-              <span>Lecture {draft.has_lab ? `${normalized?.lecture_weight || 0}%` : "100%"}</span>
+              <span>Class {draft.has_lab ? `${normalized?.lecture_weight || 0}%` : "100%"}</span>
               {draft.has_lab ? <span>Lab {normalized?.lab_weight || 0}%</span> : null}
             </div>
           </div>

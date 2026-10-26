@@ -82,7 +82,7 @@ export function SubjectCard({ row, className }) {
 
       <div className="mt-3.5 flex items-center justify-between gap-2 border-t border-line pt-3">
         <span className="truncate text-[0.64rem] text-faint">
-          {scheme ? scheme.title : "No scheme assigned"}
+          {scheme ? scheme.title : "No grade setup"}
           <span className="mx-1.5 text-line-strong">·</span>
           {subject.units} units
         </span>
@@ -90,7 +90,7 @@ export function SubjectCard({ row, className }) {
           <StatusBadge percentage={percentage} status={status} />
         ) : (
           <span className="rounded-full border border-warning/25 bg-warning-soft px-2 py-0.5 text-[0.6rem] font-semibold text-warning">
-            Needs scheme
+            Needs setup
           </span>
         )}
       </div>

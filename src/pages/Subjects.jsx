@@ -21,9 +21,9 @@ import { SubjectCard } from "../components/SubjectCard";
 import { SubjectForm } from "../components/SubjectForm";
 
 const FILTERS = [
-  { key: "all", label: "All subjects" },
+  { key: "all", label: "All courses" },
   { key: "lab", label: "With lab" },
-  { key: "lecture", label: "Lecture only" },
+  { key: "lecture", label: "Without lab" },
 ];
 
 export default function Subjects() {
@@ -34,9 +34,9 @@ export default function Subjects() {
   const [filter, setFilter] = useState("all");
 
   useSeo({
-    title: pageTitle("Subjects"),
+    title: pageTitle("Courses"),
     description:
-      "Every course you're tracking in Gradely, with term grades, semester grades, and projected final grades.",
+      "Every course you're tracking in Gradely, with term grades, semester grades, and an at-a-glance final grade.",
     path: "/app/subjects",
     noindex: true,
   });
@@ -70,7 +70,7 @@ export default function Subjects() {
     });
   }, [year.rows, query, filter]);
 
-  if (loading) return <LoadingScreen label="Loading your subjects…" />;
+  if (loading) return <LoadingScreen label="Loading your courses…" />;
 
   const hasSchemes = schemes.length > 0;
 
@@ -78,22 +78,22 @@ export default function Subjects() {
     <div className="space-y-6 animate-fade-up">
       <PageHeader
         eyebrow="This semester"
-        title="Subjects"
-        description="Every course on your board. Open one to log scores and watch its term and semester grades update."
+        title="Courses"
+        description="Every course on your board. Open one to add scores and watch its term and semester grades update."
         actions={
           <>
             <Link to="/app/schemes" className="btn btn-secondary btn-sm">
               <SlidersHorizontal size={14} />
-              Schemes
+              Setups
             </Link>
             {hasSchemes ? (
               <Button size="sm" icon={Plus} onClick={() => setFormOpen(true)}>
-                Add subject
+                Add course
               </Button>
             ) : (
               <Link to="/app/schemes?new=1" className="btn btn-primary btn-sm">
                 <Plus size={14} />
-                Create scheme
+                Create setup
               </Link>
             )}
           </>
@@ -111,9 +111,9 @@ export default function Subjects() {
               type="search"
               value={query}
               onChange={(event) => setQuery(event.target.value)}
-              placeholder="Search by code, name, or scheme…"
+              placeholder="Search by code, name, or setup…"
               className="field pl-9 pr-8"
-              aria-label="Search subjects"
+              aria-label="Search courses"
             />
             {query ? (
               <button
@@ -149,20 +149,20 @@ export default function Subjects() {
       {subjects.length === 0 ? (
         <EmptyState
           icon={BookOpen}
-          title="No subjects yet"
+          title="No courses yet"
           description={
             hasSchemes
-              ? "Add the courses you're taking this semester, pick a grading scheme for each, and start logging scores."
-              : "Create a grading scheme first — it defines how each subject's lecture, lab, and term grades are computed."
+              ? "Add the courses you're taking this semester, choose a grade setup for each, and start adding scores."
+              : "Create a grade setup first — it decides how each course's quizzes, projects, exams, and lab work count."
           }
           action={
             hasSchemes ? (
               <Button icon={Plus} onClick={() => setFormOpen(true)}>
-                Add your first subject
+                Add your first course
               </Button>
             ) : (
               <Link to="/app/schemes?new=1" className="btn btn-primary">
-                Create a grading scheme
+                Create a grade setup
               </Link>
             )
           }
@@ -170,7 +170,7 @@ export default function Subjects() {
       ) : filteredRows.length === 0 ? (
         <EmptyState
           icon={Search}
-          title="No matching subjects"
+          title="No matching courses"
           description="Try a different search term or clear the filter to see all of your courses."
           action={
             <Button
@@ -188,7 +188,7 @@ export default function Subjects() {
         <>
           <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-[0.7rem] text-faint">
             <span>
-              {filteredRows.length} subject{filteredRows.length === 1 ? "" : "s"} ·{" "}
+              {filteredRows.length} course{filteredRows.length === 1 ? "" : "s"} ·{" "}
               {filteredRows.reduce(
                 (total, row) => total + Number(row.subject.units || 0),
                 0,
@@ -198,7 +198,7 @@ export default function Subjects() {
             {filter === "lab" ? (
               <span className="inline-flex items-center gap-1">
                 <FlaskConical size={11} className="text-accent" />
-                Showing lab subjects
+                Showing courses with a lab
               </span>
             ) : null}
           </div>

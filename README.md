@@ -1,19 +1,18 @@
 # Gradely
 
-A clean, student-focused grade tracker with custom grading schemes and real-time term,
-semester, and GWA computation.
+A simple, student-focused grade tracker for keeping scores, courses, and grades in one
+place.
 
 ![Gradely](public/og-image.png)
 
 ## What it does
 
-- **Custom grading schemes** — set lecture vs. lab weights, four term weights, and every
-  assessment sub-component.
-- **Real computation** — enter a raw score or a percentage. Gradely computes the component
-  average, the lecture and lab averages, the term grade, and the semester projection.
-- **Configurable grade scale** — map any percentage range to a grade point and remarks
-  (1.00–5.00, a 4.0 GPA scale, or anything else).
-- **GWA tracking** — unit-weighted GWA across subjects, with a per-subject final grade.
+- **Grade setups** — choose how class work, labs, terms, and activities count, then reuse
+  the setup for other courses.
+- **Automatic math** — enter points or a percentage. Gradely handles the activity, term,
+  semester, and overall averages.
+- **Your grade scale** — match the percentage ranges and grades your school already uses.
+- **Overall average** — see a GPA/GWA-style average across all your courses.
 - **Student accounts** — Supabase email/password auth with Row Level Security on every
   table. Students can only read and write their own data.
 - **Dark and light mode**, mobile-first dashboard, and no spreadsheet maintenance.
@@ -57,8 +56,9 @@ missing. It can copy or download the schema for you.
    and run it. The script is idempotent.
 3. Under **Authentication → URL Configuration**, set:
    - **Site URL:** your deployed URL (for local work: `http://localhost:5173`)
-   - **Redirect URLs:** `http://localhost:5173/**` and `https://your-domain.com/**`
-     (required for signup confirmation and password reset links)
+   - **Redirect URLs:** `http://localhost:5173/**` and
+     `https://gradelyclass.space/**` (required for signup confirmation and password
+     reset links)
 4. Under **Authentication → Providers → Email**, enable email/password. If "Confirm
    email" is on, students will receive a confirmation link before their first sign-in.
 5. Return to the app and click **Check again** if the setup screen is still open.
@@ -112,9 +112,9 @@ The app is a single-page app, so the host must rewrite unknown routes to `index.
 - **Vercel:** `vercel.json` is included with the rewrite and basic security headers.
 - **Netlify:** `public/_redirects` is included.
 - **Any static host:** add a catch-all rewrite to `/index.html`, and set the three
-  `VITE_` environment variables at build time. Set `VITE_SITE_URL` to the final domain
-  (for example `https://gradely.yourdomain.com`) so the build emits the right canonical,
-  sitemap, and robots URLs.
+  `VITE_` environment variables at build time. Set `VITE_SITE_URL` to
+  `https://gradelyclass.space` so the build emits the right canonical, sitemap, and
+  robots URLs.
 
 ```bash
 npm run build

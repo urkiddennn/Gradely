@@ -7,7 +7,6 @@ import {
   Pencil,
   Plus,
   SlidersHorizontal,
-  Sparkles,
   Trash2,
 } from "lucide-react";
 import { useData } from "../context/DataContext";
@@ -70,7 +69,7 @@ function SchemeCard({ scheme, usage, onEdit, onDelete }) {
         <div className="flex items-center justify-between text-[0.68rem] font-semibold">
           <span className="inline-flex items-center gap-1.5 text-ink">
             <BookOpen size={12} className="text-accent" />
-            Lecture {normalized?.lecture_weight}%
+            Class {normalized?.lecture_weight}%
           </span>
           <span className="inline-flex items-center gap-1.5 text-muted">
             <FlaskConical size={12} className="text-faint" />
@@ -91,9 +90,9 @@ function SchemeCard({ scheme, usage, onEdit, onDelete }) {
 
       <div className="mt-4 grid grid-cols-3 gap-2">
         {[
-          ["Lecture", `${normalized?.lecture_components.length || 0} components`],
-          ["Lab", `${normalized?.lab_components.length || 0} components`],
-          ["Scale", `${normalized?.scale_mappings.length || 0} ranges`],
+          ["Class", `${normalized?.lecture_components.length || 0} activities`],
+          ["Lab", `${normalized?.lab_components.length || 0} activities`],
+          ["Grades", `${normalized?.scale_mappings.length || 0} ranges`],
         ].map(([label, value]) => (
           <div
             key={label}
@@ -124,15 +123,15 @@ function SchemeCard({ scheme, usage, onEdit, onDelete }) {
         <span className="inline-flex items-center gap-1.5 text-[0.66rem] text-faint">
           <Layers size={12} />
           {usage === 0
-            ? "Not used by any subject"
-            : `Used by ${usage} subject${usage === 1 ? "" : "s"}`}
+            ? "Not used by any course"
+            : `Used by ${usage} course${usage === 1 ? "" : "s"}`}
         </span>
         <button
           type="button"
           onClick={() => onEdit(scheme)}
           className="inline-flex items-center gap-1 text-xs font-semibold text-accent hover:text-accent-hover"
         >
-          Edit scheme
+          Edit setup
           <Pencil size={11} />
         </button>
       </div>
@@ -151,9 +150,9 @@ export default function Schemes() {
   const [creatingStarter, setCreatingStarter] = useState(false);
 
   useSeo({
-    title: pageTitle("Grading schemes"),
+    title: pageTitle("Grade setups"),
     description:
-      "Build custom Gradely grading schemes with lecture and lab weights, term splits, sub-components, and grade scales.",
+      "Save the grade setups you use most. Choose how class work, labs, and activities count, then apply a setup to any course.",
     path: "/app/schemes",
     noindex: true,
   });
@@ -185,10 +184,10 @@ export default function Schemes() {
     setDeleting(true);
     try {
       await removeScheme(deleteTarget.id);
-      toast.success("Grading scheme deleted.");
+      toast.success("Grade setup deleted.");
       setDeleteTarget(null);
     } catch (error) {
-      toast.error(error?.message || "Could not delete the grading scheme.");
+      toast.error(error?.message || "Could not delete the grade setup.");
     } finally {
       setDeleting(false);
     }
@@ -197,40 +196,40 @@ export default function Schemes() {
   const handleStarter = async () => {
     setCreatingStarter(true);
     try {
-      await createScheme(createStarterScheme("Standard Lecture + Lab"));
-      toast.success("Starter scheme created. Add your first subject next.");
+      await createScheme(createStarterScheme("Standard Class + Lab"));
+      toast.success("Ready-made setup added. Add your first course next.");
     } catch (error) {
-      toast.error(error?.message || "Could not create the starter scheme.");
+      toast.error(error?.message || "Could not create the ready-made setup.");
     } finally {
       setCreatingStarter(false);
     }
   };
 
-  if (loading) return <LoadingScreen label="Loading grading schemes…" />;
+  if (loading) return <LoadingScreen label="Loading grade setups…" />;
 
   const deleteUsage = deleteTarget ? usageFor(deleteTarget.id) : 0;
 
   return (
     <div className="space-y-6 animate-fade-up">
       <PageHeader
-        eyebrow="Grading system"
-        title="Grading schemes"
-        description="Create the exact weight structures your courses use, then apply a scheme to any subject. Change it once and every subject updates instantly."
+        eyebrow="Your grading"
+        title="Grade setups"
+        description="Save the grading rules you use most, then apply a setup to any course. Change it once and every course using it updates."
         actions={
           <>
             {schemes.length > 0 ? (
               <Button
                 variant="secondary"
                 size="sm"
-                icon={Sparkles}
+                icon={Layers}
                 loading={creatingStarter}
                 onClick={handleStarter}
               >
-                Starter template
+                Ready-made setup
               </Button>
             ) : null}
             <Button size="sm" icon={Plus} onClick={openNew}>
-              New scheme
+              New setup
             </Button>
           </>
         }
@@ -245,24 +244,23 @@ export default function Schemes() {
             />
             <div className="relative max-w-2xl">
               <span className="inline-flex items-center gap-1.5 rounded-full border border-accent/25 bg-surface/70 px-2.5 py-1 text-[0.62rem] font-bold uppercase tracking-[0.12em] text-accent-ink">
-                <Sparkles size={11} />
                 Start here
               </span>
               <h2 className="mt-3 text-xl font-semibold tracking-[-0.035em] text-ink sm:text-2xl">
-                Build a scheme once. Use it everywhere.
+                Set it up once. Use it everywhere.
               </h2>
               <p className="mt-1.5 text-sm leading-relaxed text-ink-soft/80">
-                A scheme holds your lecture / lab split, the four term weights, each
-                assessment component, and your grade scale. Use the standard template or
-                start from a blank canvas.
+                A grade setup saves how your class counts quizzes, projects, exams, and
+                lab work — plus the grade scale you use. Start with the ready-made setup
+                or create your own.
               </p>
               <div className="mt-5 flex flex-col gap-2 sm:flex-row">
                 <Button
-                  icon={Sparkles}
+                  icon={Layers}
                   loading={creatingStarter}
                   onClick={handleStarter}
                 >
-                  Use the starter template
+                  Use a ready-made setup
                 </Button>
                 <Button variant="secondary" icon={Plus} onClick={openNew}>
                   Build from scratch
@@ -273,11 +271,11 @@ export default function Schemes() {
 
           <EmptyState
             icon={SlidersHorizontal}
-            title="No grading schemes yet"
-            description="Your schemes will appear here with their lecture / lab split, term weights, components, and grade scale."
+            title="No grade setups yet"
+            description="Your setups will appear here with their lecture / lab split, term percentages, activities, and grade scale."
             action={
               <Button icon={Plus} onClick={openNew}>
-                Create a scheme
+                Create a setup
               </Button>
             }
           />
@@ -307,13 +305,13 @@ export default function Schemes() {
                 Want different rules per course?
               </p>
               <p className="mt-0.5 text-xs leading-relaxed text-muted">
-                Create as many schemes as you need — one per department, college, or
-                syllabus.
+                Create as many setups as you need — one per class, department, or
+                teacher.
               </p>
             </div>
           </div>
           <Link to="/app/subjects" className="btn btn-secondary btn-sm shrink-0">
-            View subjects
+            View courses
           </Link>
         </div>
       ) : null}
@@ -329,13 +327,13 @@ export default function Schemes() {
         onClose={() => setDeleteTarget(null)}
         onConfirm={handleDelete}
         loading={deleting}
-        title="Delete this grading scheme?"
-        confirmLabel="Delete scheme"
+        title="Delete this grade setup?"
+        confirmLabel="Delete setup"
         description={
           deleteUsage > 0
-            ? `“${deleteTarget?.title}” is used by ${deleteUsage} subject${
+            ? `“${deleteTarget?.title}” is used by ${deleteUsage} course${
                 deleteUsage === 1 ? "" : "s"
-              }. Deleting it will leave those subjects without a scheme until you assign a new one. This cannot be undone.`
+              }. Deleting it will leave those courses without a setup until you choose a new one. This cannot be undone.`
             : `“${deleteTarget?.title}” and its grade scale will be permanently deleted. This cannot be undone.`
         }
       />

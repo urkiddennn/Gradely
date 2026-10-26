@@ -10,7 +10,6 @@ import {
   Layers,
   Plus,
   SlidersHorizontal,
-  Sparkles,
   TrendingUp,
 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
@@ -113,19 +112,18 @@ function Onboarding({ onCreateStarter, creating }) {
       />
       <div className="relative max-w-2xl">
         <span className="inline-flex items-center gap-1.5 rounded-full border border-accent/25 bg-surface/70 px-2.5 py-1 text-[0.62rem] font-bold uppercase tracking-[0.12em] text-accent-ink">
-          <Sparkles size={11} />
-          Quick start
+          Start here
         </span>
         <h2 className="mt-3 text-xl font-semibold tracking-[-0.035em] text-ink sm:text-2xl">
-          Let's set up your grading system.
+          Let's set up your grades.
         </h2>
         <p className="mt-1.5 max-w-xl text-sm leading-relaxed text-ink-soft/80">
-          Start with a reusable scheme — lecture and lab weights, term splits, components,
-          and your grade scale. Then add your subjects and scores.
+          Choose how your classes count quizzes, projects, and exams. Then add your
+          courses and scores — the math takes care of itself.
         </p>
         <div className="mt-5 flex flex-col gap-2 sm:flex-row">
-          <Button icon={Sparkles} loading={creating} onClick={onCreateStarter}>
-            Use the starter scheme
+          <Button icon={Layers} loading={creating} onClick={onCreateStarter}>
+            Use a ready-made setup
           </Button>
           <Link to="/app/schemes?new=1" className="btn btn-secondary">
             Build from scratch
@@ -134,13 +132,13 @@ function Onboarding({ onCreateStarter, creating }) {
         </div>
         <div className="mt-5 flex flex-wrap gap-x-5 gap-y-2 text-[0.68rem] font-medium text-ink-soft/70">
           <span className="inline-flex items-center gap-1.5">
-            <Layers size={12} /> 60 / 40 lecture-lab
+            <Layers size={12} /> Class and lab
           </span>
           <span className="inline-flex items-center gap-1.5">
-            <BookOpen size={12} /> 25% per term
+            <BookOpen size={12} /> Four terms
           </span>
           <span className="inline-flex items-center gap-1.5">
-            <Award size={12} /> 1.00–5.00 scale
+            <Award size={12} /> Your own grade scale
           </span>
         </div>
       </div>
@@ -154,13 +152,13 @@ function RecentScores({ entries, subjectById, schemesById }) {
       <div className="flex items-center justify-between gap-3 border-b border-line px-5 py-4">
         <div>
           <h2 className="text-sm font-semibold text-ink">Recent scores</h2>
-          <p className="mt-0.5 text-xs text-muted">Your latest recorded assessments.</p>
+          <p className="mt-0.5 text-xs text-muted">Your latest scores.</p>
         </div>
         <Link
           to="/app/subjects"
           className="inline-flex items-center gap-1 text-xs font-semibold text-accent hover:text-accent-hover"
         >
-          All subjects
+          All courses
           <ChevronRight size={13} />
         </Link>
       </div>
@@ -172,8 +170,8 @@ function RecentScores({ entries, subjectById, schemesById }) {
           </span>
           <p className="mt-3 text-sm font-semibold text-ink">No scores yet</p>
           <p className="mt-1 max-w-xs text-xs leading-relaxed text-muted">
-            Open a subject and add your first quiz, exam, or lab score to see your grades
-            come to life.
+            Open a course and add your first quiz, project, or lab score to see your
+            grades come to life.
           </p>
         </div>
       ) : (
@@ -231,8 +229,8 @@ function SchemeSnapshot({ scheme }) {
     <div className="card flex h-full flex-col">
       <div className="flex items-center justify-between gap-3 border-b border-line px-5 py-4">
         <div>
-          <h2 className="text-sm font-semibold text-ink">Grading scheme</h2>
-          <p className="mt-0.5 text-xs text-muted">{normalized?.title || "No scheme yet"}</p>
+          <h2 className="text-sm font-semibold text-ink">Your grade setup</h2>
+          <p className="mt-0.5 text-xs text-muted">{normalized?.title || "No setup yet"}</p>
         </div>
         <Link
           to="/app/schemes"
@@ -248,7 +246,7 @@ function SchemeSnapshot({ scheme }) {
           <div className="flex items-center justify-between text-[0.68rem] font-semibold">
             <span className="inline-flex items-center gap-1.5 text-ink">
               <BookOpen size={12} className="text-accent" />
-              Lecture {normalized.lecture_weight}%
+              Class {normalized.lecture_weight}%
             </span>
             <span className="inline-flex items-center gap-1.5 text-muted">
               <FlaskConical size={12} className="text-faint" />
@@ -267,7 +265,7 @@ function SchemeSnapshot({ scheme }) {
           </div>
 
           <p className="mt-4 text-[0.62rem] font-bold uppercase tracking-[0.12em] text-faint">
-            Term weights
+            Term percentages
           </p>
           <div className="mt-2 grid grid-cols-4 gap-1.5">
             {["prelim", "midterm", "prefinal", "final_exam"].map((key) => (
@@ -310,9 +308,9 @@ function SchemeSnapshot({ scheme }) {
       ) : (
         <div className="flex flex-1 flex-col items-center justify-center px-5 py-8 text-center">
           <SlidersHorizontal size={22} className="text-faint" />
-          <p className="mt-2 text-xs text-muted">Create a scheme to get started.</p>
+          <p className="mt-2 text-xs text-muted">Create a grade setup to get started.</p>
           <Link to="/app/schemes?new=1" className="btn btn-secondary btn-sm mt-3">
-            New scheme
+            New setup
           </Link>
         </div>
       )}
@@ -349,7 +347,7 @@ export default function Dashboard() {
   useSeo({
     title: pageTitle("Dashboard"),
     description:
-      "Your Gradely dashboard — track term grades, semester grades, and your GWA in real time.",
+      "Your Gradely dashboard — see your courses, term grades, semester grades, and overall average at a glance.",
     path: "/app",
     noindex: true,
   });
@@ -357,10 +355,10 @@ export default function Dashboard() {
   const handleStarter = async () => {
     setCreatingStarter(true);
     try {
-      await createScheme(createStarterScheme("Standard Lecture + Lab"));
-      toast.success("Starter scheme created. Add your first subject next.");
+      await createScheme(createStarterScheme("Standard Class + Lab"));
+      toast.success("Ready-made setup added. Add your first course next.");
     } catch (error) {
-      toast.error(error?.message || "Could not create the starter scheme.");
+      toast.error(error?.message || "Could not create the ready-made setup.");
     } finally {
       setCreatingStarter(false);
     }
@@ -387,13 +385,13 @@ export default function Dashboard() {
           <p className="mt-1 text-sm text-muted">
             {subjects.length > 0
               ? "Here's where your semester stands today."
-              : "Let's get your first subject onto the board."}
+              : "Let's get your first course onto the board."}
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <Link to="/app/schemes" className="btn btn-secondary btn-sm">
             <SlidersHorizontal size={14} />
-            Schemes
+            Setups
           </Link>
           {schemes.length > 0 ? (
             <Button
@@ -401,12 +399,12 @@ export default function Dashboard() {
               icon={Plus}
               onClick={() => setSubjectFormOpen(true)}
             >
-              Add subject
+              Add course
             </Button>
           ) : (
             <Link to="/app/schemes?new=1" className="btn btn-primary btn-sm">
               <Plus size={14} />
-              Create scheme
+              Create setup
             </Link>
           )}
         </div>
@@ -418,12 +416,12 @@ export default function Dashboard() {
 
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
         <SummaryCard
-          label="Final year GWA"
+          label="Overall average"
           value={formatGradePoint(year.gwa)}
           sub={
             year.gwa == null
-              ? "Add scores to estimate your GWA"
-              : `Unit-weighted across ${year.gradedCount} subject${year.gradedCount === 1 ? "" : "s"}`
+              ? "Add scores to see your average"
+              : "GPA / GWA across your courses"
           }
           icon={Award}
           tone="accent"
@@ -433,16 +431,16 @@ export default function Dashboard() {
           value={formatPercent(year.averagePercentage)}
           sub={
             year.gradedCount > 0
-              ? `Across ${year.gradedCount} graded subject${year.gradedCount === 1 ? "" : "s"}`
-              : "No graded subjects yet"
+              ? `Across ${year.gradedCount} graded course${year.gradedCount === 1 ? "" : "s"}`
+              : "No graded courses yet"
           }
           icon={TrendingUp}
           tone="positive"
         />
         <SummaryCard
-          label="Subjects"
+          label="Courses"
           value={String(year.totalSubjects)}
-          sub={`${schemes.length} scheme${schemes.length === 1 ? "" : "s"} · ${year.units || 0} total units`}
+          sub={`${schemes.length} setup${schemes.length === 1 ? "" : "s"} · ${year.units || 0} units`}
           icon={BookOpen}
           tone="accent"
         />
@@ -463,11 +461,9 @@ export default function Dashboard() {
         <div className="mb-3 flex items-end justify-between gap-3">
           <div>
             <h2 className="text-base font-semibold tracking-[-0.02em] text-ink">
-              Your subjects
+              Your courses
             </h2>
-            <p className="mt-0.5 text-xs text-muted">
-              Term, semester, and projected final grade for each course.
-            </p>
+            <p className="mt-0.5 text-xs text-muted">Each course at a glance.</p>
           </div>
           {subjects.length > 0 ? (
             <Link
@@ -483,20 +479,20 @@ export default function Dashboard() {
         {subjects.length === 0 ? (
           <EmptyState
             icon={BookOpen}
-            title={schemes.length > 0 ? "Add your first subject" : "Your subjects will live here"}
+            title={schemes.length > 0 ? "Add your first course" : "Your courses will appear here"}
             description={
               schemes.length > 0
-                ? "Pick the grading scheme that fits this course, set its units, and start logging scores."
-                : "Create a grading scheme first, then add the subjects you're taking this semester."
+                ? "Pick the grade setup that fits this course, set its units, and start adding scores."
+                : "Create a grade setup first, then add the courses you're taking this semester."
             }
             action={
               schemes.length > 0 ? (
                 <Button icon={Plus} onClick={() => setSubjectFormOpen(true)}>
-                  Add a subject
+                  Add a course
                 </Button>
               ) : (
                 <Link to="/app/schemes?new=1" className="btn btn-primary">
-                  Create a scheme
+                  Create a grade setup
                   <ArrowRight size={15} />
                 </Link>
               )

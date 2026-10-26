@@ -98,21 +98,21 @@ function ComponentGroup({
               className="field field-sm min-w-0 flex-1"
               value={component.name}
               onChange={(event) => onChange(index, "name", event.target.value)}
-              placeholder="Component name"
-              aria-label={`${title} component ${index + 1} name`}
+              placeholder="Activity name"
+              aria-label={`${title} activity ${index + 1} name`}
             />
             <div className="w-[76px] shrink-0">
               <WeightInput
                 value={component.weight}
                 onChange={(value) => onChange(index, "weight", value)}
-                label={`${title} component ${index + 1} weight`}
+                label={`${title} activity ${index + 1} percentage`}
               />
             </div>
             <button
               type="button"
               onClick={() => onRemove(index)}
               className="grid h-8 w-8 shrink-0 place-items-center rounded-lg text-faint transition hover:bg-danger-soft hover:text-danger"
-              aria-label={`Remove ${component.name || "component"}`}
+              aria-label={`Remove ${component.name || "activity"}`}
             >
               <Trash2 size={14} />
             </button>
@@ -128,7 +128,7 @@ function ComponentGroup({
         className="mt-2.5 inline-flex items-center gap-1.5 rounded-lg px-2 py-1.5 text-xs font-semibold text-accent transition hover:bg-accent-soft"
       >
         <Plus size={13} />
-        Add component
+        Add activity
       </button>
     </div>
   );
@@ -248,15 +248,15 @@ export function SchemeEditor({ open, onClose, scheme, onSaved }) {
     try {
       if (scheme) {
         await updateScheme(scheme.id, draft);
-        toast.success("Grading scheme updated.");
+        toast.success("Grade setup updated.");
       } else {
         await createScheme(draft);
-        toast.success("Grading scheme created.");
+        toast.success("Grade setup created.");
       }
       onSaved?.();
       onClose?.();
     } catch (error) {
-      toast.error(error?.message || "Could not save the grading scheme.");
+      toast.error(error?.message || "Could not save the grade setup.");
     } finally {
       setSaving(false);
     }
@@ -266,8 +266,8 @@ export function SchemeEditor({ open, onClose, scheme, onSaved }) {
     <Modal
       open={open}
       onClose={saving ? () => {} : onClose}
-      title={scheme ? "Edit grading scheme" : "New grading scheme"}
-      description="Match the exact weight structure your course uses. You can reuse this scheme across subjects."
+      title={scheme ? "Edit grade setup" : "New grade setup"}
+      description="Choose how much each part of your class counts. You can reuse this setup for other courses."
       size="4xl"
       footer={
         <>
@@ -275,7 +275,7 @@ export function SchemeEditor({ open, onClose, scheme, onSaved }) {
             Cancel
           </Button>
           <Button type="submit" form="scheme-form" icon={Save} loading={saving}>
-            {scheme ? "Save changes" : "Create scheme"}
+            {scheme ? "Save changes" : "Create setup"}
           </Button>
         </>
       }
@@ -283,16 +283,16 @@ export function SchemeEditor({ open, onClose, scheme, onSaved }) {
       <form id="scheme-form" onSubmit={handleSubmit} className="space-y-7">
         <div>
           <Field
-            label="Scheme name"
+            label="Setup name"
             htmlFor="scheme-title"
             error={errors.title}
-            hint="For example: “BS Computer Science — Lecture + Lab”."
+            hint="For example: “Standard Class + Lab” or “College grading”."
           >
             <Input
               id="scheme-title"
               value={draft.title}
               onChange={(event) => patch({ title: event.target.value })}
-              placeholder="Standard Lecture + Lab"
+              placeholder="Standard Class + Lab"
               maxLength={80}
               autoFocus
             />
@@ -302,24 +302,24 @@ export function SchemeEditor({ open, onClose, scheme, onSaved }) {
         {/* Lecture / Lab split */}
         <section>
           <SectionHeading
-            title="Lecture vs. laboratory"
-            description="How much does each track contribute to a term grade?"
+            title="Class and lab"
+            description="Choose how much class work and lab work count toward each term."
             right={<SumChip total={splitTotal} />}
           />
           <div className="rounded-2xl border border-line bg-surface-2/35 p-3.5">
             <div className="grid grid-cols-2 gap-3">
-              <Field label="Lecture weight" htmlFor="lecture-weight">
+              <Field label="Class portion" htmlFor="lecture-weight">
                 <WeightInput
                   value={draft.lecture_weight}
                   onChange={(value) => patch({ lecture_weight: value })}
-                  label="Lecture weight"
+                  label="Class portion"
                 />
               </Field>
-              <Field label="Laboratory weight" htmlFor="lab-weight">
+              <Field label="Lab portion" htmlFor="lab-weight">
                 <WeightInput
                   value={draft.lab_weight}
                   onChange={(value) => patch({ lab_weight: value })}
-                  label="Laboratory weight"
+                  label="Lab portion"
                 />
               </Field>
             </div>
@@ -334,14 +334,14 @@ export function SchemeEditor({ open, onClose, scheme, onSaved }) {
               />
             </div>
             <div className="mt-1.5 flex justify-between text-[0.64rem] text-faint">
-              <span>Lecture</span>
-              <span>Laboratory</span>
+              <span>Class</span>
+              <span>Lab</span>
             </div>
             {errors.labSplit ? (
               <p className="mt-2 text-xs font-medium text-danger">{errors.labSplit}</p>
             ) : (
               <p className="mt-2 text-[0.68rem] leading-relaxed text-faint">
-                Set lab to 0% for pure lecture subjects. Weights must total 100%.
+                Set lab to 0% if this course has no lab. The two portions should total 100%.
               </p>
             )}
           </div>
@@ -350,8 +350,8 @@ export function SchemeEditor({ open, onClose, scheme, onSaved }) {
         {/* Term weights */}
         <section>
           <SectionHeading
-            title="Term weight breakdown"
-            description="How the four terms roll up into your semester grade."
+            title="How each term counts"
+            description="Set how much each term adds to your semester grade."
             right={<SumChip total={termTotal} />}
           />
           <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-4">
@@ -360,7 +360,7 @@ export function SchemeEditor({ open, onClose, scheme, onSaved }) {
                 <WeightInput
                   value={draft.term_weights?.[term.key] ?? 0}
                   onChange={(value) => patchTerm(term.key, value)}
-                  label={`${term.label} weight`}
+                  label={`${term.label} percentage`}
                 />
               </Field>
             ))}
@@ -373,8 +373,8 @@ export function SchemeEditor({ open, onClose, scheme, onSaved }) {
         {/* Components */}
         <section>
           <SectionHeading
-            title="Sub-component weights"
-            description="These are the assessment types inside each track. Each track must total 100%."
+            title="How activities count"
+            description="Add the activities your class uses and how much each one counts. Each group should total 100%."
           />
           <div
             className={cn(
@@ -386,7 +386,7 @@ export function SchemeEditor({ open, onClose, scheme, onSaved }) {
           >
             {toNumber(draft.lecture_weight) > 0 ? (
               <ComponentGroup
-                title="Lecture components"
+                title="Class activities"
                 icon={BookOpen}
                 components={draft.lecture_components}
                 weightTotal={lectureTotal}
@@ -401,7 +401,7 @@ export function SchemeEditor({ open, onClose, scheme, onSaved }) {
 
             {toNumber(draft.lab_weight) > 0 ? (
               <ComponentGroup
-                title="Laboratory components"
+                title="Lab activities"
                 icon={FlaskConical}
                 components={draft.lab_components}
                 weightTotal={labTotal}
@@ -419,8 +419,8 @@ export function SchemeEditor({ open, onClose, scheme, onSaved }) {
         {/* Scale */}
         <section>
           <SectionHeading
-            title="Grading scale mapping"
-            description="Map percentage ranges to grade points and remarks. The scale is used for term grades and GWA."
+            title="Grade scale"
+            description="Set the percentage ranges and the grade you see on your report card."
             right={
               <button
                 type="button"
@@ -428,7 +428,7 @@ export function SchemeEditor({ open, onClose, scheme, onSaved }) {
                 className="inline-flex items-center gap-1 text-xs font-semibold text-accent hover:text-accent-hover"
               >
                 <Plus size={13} />
-                Add range
+                Add grade range
               </button>
             }
           />
@@ -445,7 +445,7 @@ export function SchemeEditor({ open, onClose, scheme, onSaved }) {
                 <span>Min %</span>
                 <span>Max %</span>
                 <span>Grade</span>
-                <span>Remarks</span>
+                <span>Remark</span>
                 <span />
               </div>
               <div className="divide-y divide-line">
@@ -501,7 +501,7 @@ export function SchemeEditor({ open, onClose, scheme, onSaved }) {
                       type="button"
                       onClick={() => removeScaleRow(index)}
                       className="grid h-8 w-8 place-items-center rounded-lg text-faint transition hover:bg-danger-soft hover:text-danger"
-                      aria-label={`Remove scale range ${index + 1}`}
+                      aria-label={`Remove grade range ${index + 1}`}
                     >
                       <Trash2 size={14} />
                     </button>
@@ -511,14 +511,14 @@ export function SchemeEditor({ open, onClose, scheme, onSaved }) {
             </div>
           </div>
           <p className="mt-2 text-[0.68rem] leading-relaxed text-faint">
-            Ranges can include decimals. A 1.00–5.00 scale works just as well as a 4.0 GPA
+            Ranges can include decimals. A 1.00–5.00 scale works just as well as a 4.0
             scale.
           </p>
         </section>
 
         <div className="flex flex-col items-start justify-between gap-3 border-t border-line pt-4 sm:flex-row sm:items-center">
           <p className="text-[0.68rem] leading-relaxed text-faint">
-            Tip: most Philippine colleges use 25% per term and a 75% passing percentage.
+            Tip: a simple starting point is 25% per term and 75% as the passing grade.
           </p>
           <Button
             type="button"

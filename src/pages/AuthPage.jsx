@@ -12,7 +12,6 @@ import {
   Mail,
   Moon,
   ShieldCheck,
-  Sparkles,
   Sun,
   UserRound,
 } from "lucide-react";
@@ -158,26 +157,25 @@ function AuthSidePanel() {
 
       <div className="relative mt-14 max-w-md">
         <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-[0.64rem] font-semibold uppercase tracking-[0.14em] text-[#9fd8c6]">
-          <Sparkles size={12} />
-          Your semester, in focus
+          A simpler semester
         </span>
         <h2 className="mt-5 text-[2.4rem] font-semibold leading-[1.04] tracking-[-0.045em] text-[#f2f7f4]">
-          Every score adds up.
+          Every score in one place.
           <br />
           <span className="font-display font-normal italic text-[#9fd8c6]">
-            Now you can see how.
+            So you're never left guessing.
           </span>
         </h2>
         <p className="mt-4 text-sm leading-relaxed text-[#bcd4cc]">
-          Track the grading structure your school actually uses, and know exactly where
-          you stand before the term ends.
+          Keep your scores together and see how each course is going at any point in the
+          semester.
         </p>
 
         <ul className="mt-7 space-y-3">
           {[
-            "Lecture, lab, and term weights that match your syllabus",
-            "Term and semester grades computed automatically",
-            "Your own grade scale mapped to a live GWA",
+            "Quizzes, projects, exams, and lab work in one place",
+            "Term and semester grades update as you go",
+            "Your overall average stays up to date",
           ].map((item) => (
             <li key={item} className="flex items-start gap-2.5 text-sm text-[#d9e8e3]">
               <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-[#55c2a2]/15 text-[#9fd8c6]">
@@ -192,7 +190,7 @@ function AuthSidePanel() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-[0.6rem] font-bold uppercase tracking-[0.14em] text-[#7fae9f]">
-                Estimated GWA
+                Overall average
               </p>
               <p className="mt-1 font-display text-3xl leading-none text-[#f2f7f4]">1.63</p>
             </div>
@@ -217,7 +215,7 @@ function AuthSidePanel() {
 
       <div className="relative mt-10 flex items-center gap-2 text-[0.68rem] text-[#7fae9f]">
         <ShieldCheck size={14} />
-        Protected by Row Level Security. Only you can see your grades.
+        Private by default. Only you can see your grades.
       </div>
     </aside>
   );
@@ -258,7 +256,7 @@ export default function AuthPage() {
   useSeo({
     title: pageTitle(mode === "signup" ? "Create account" : mode === "forgot" ? "Reset password" : "Sign in"),
     description:
-      "Sign in to Gradely to track your scores, customize grading schemes, and compute your GWA in real time.",
+      "Sign in to Gradely to keep your scores, courses, and grades together in one simple place.",
     path: "/auth",
     noindex: true,
   });
@@ -617,7 +615,7 @@ export default function AuthPage() {
 
             <p className="mt-6 flex items-center justify-center gap-1.5 text-center text-[0.68rem] text-faint">
               <ShieldCheck size={13} />
-              Secured by Supabase Auth · Your grades stay private
+              Private by default · Only you can see your grades
             </p>
           </div>
         </div>

@@ -99,7 +99,7 @@ function TermSummary({ term, current, scheme, status }) {
         <div className="grid grid-cols-3 gap-4 border-t border-line pt-4 sm:min-w-[310px] sm:border-l sm:border-t-0 sm:pl-6 sm:pt-0">
           <div>
             <p className="text-[0.56rem] font-bold uppercase tracking-[0.1em] text-faint">
-              Lecture
+              Class
             </p>
             <p className="mt-1 text-sm font-semibold text-ink">
               {formatPercent(current.lecture.percentage, 0)}
@@ -107,7 +107,7 @@ function TermSummary({ term, current, scheme, status }) {
           </div>
           <div>
             <p className="text-[0.56rem] font-bold uppercase tracking-[0.1em] text-faint">
-              Laboratory
+              Lab
             </p>
             <p className="mt-1 text-sm font-semibold text-ink">
               {current.lab && current.lab.total > 0 ? formatPercent(current.lab.percentage, 0) : "—"}
@@ -119,7 +119,7 @@ function TermSummary({ term, current, scheme, status }) {
             </p>
             <p className="mt-1 text-sm font-semibold text-ink">{assessments}</p>
             <p className="mt-0.5 text-[0.56rem] text-faint">
-              {gradedComponents}/{componentCount} components
+              {gradedComponents}/{componentCount} activities
             </p>
           </div>
         </div>
@@ -136,7 +136,7 @@ function TermSummary({ term, current, scheme, status }) {
             />
           </div>
           <span className="text-[0.62rem] font-semibold text-muted">
-            {gradedComponents} of {componentCount} components graded
+            {gradedComponents} of {componentCount} activities graded
           </span>
         </div>
       </div>
@@ -181,7 +181,7 @@ function BreakdownCard({ title, icon: Icon, trackWeight, stats, tone = "accent" 
             </div>
             <div className="mt-1 flex items-center justify-between gap-3">
               <p className="truncate text-[0.62rem] text-faint">
-                {component.weight}% weight
+                Counts for {component.weight}%
                 {component.entryCount > 0
                   ? ` · ${component.entryCount} score${component.entryCount === 1 ? "" : "s"}`
                   : " · no scores yet"}
@@ -204,8 +204,8 @@ function BreakdownCard({ title, icon: Icon, trackWeight, stats, tone = "accent" 
 
       <p className="mt-4 flex items-start gap-1.5 border-t border-line pt-3 text-[0.62rem] leading-relaxed text-faint">
         <Info size={11} className="mt-0.5 shrink-0" />
-        Component weights rebalance across the components you've recorded, so a grade
-        appears before every assessment is complete.
+        Only the activities you've added scores for are counted for now. Add the rest
+        anytime — your grade will update as you go.
       </p>
     </div>
   );
@@ -217,9 +217,9 @@ function SemesterCard({ subject, semester, scheme, term, onSelectTerm }) {
     <div className="card p-5">
       <div className="flex items-start justify-between gap-3">
         <div>
-          <h2 className="text-sm font-semibold text-ink">Semester projection</h2>
+          <h2 className="text-sm font-semibold text-ink">Semester grade</h2>
           <p className="mt-0.5 text-[0.66rem] text-faint">
-            Weighted across {semester.completedTerms} of 4 terms
+            Based on {semester.completedTerms} of 4 terms
           </p>
         </div>
         <StatusBadge percentage={semester.percentage} />
@@ -291,13 +291,12 @@ function SemesterCard({ subject, semester, scheme, term, onSelectTerm }) {
 
       {semester.completedTerms < 4 ? (
         <p className="mt-3 border-t border-line pt-3 text-[0.62rem] leading-relaxed text-faint">
-          This is a projection. Missing terms are excluded and the remaining term weights
-          rebalance until all four are graded.
+          This is an estimate. Only the terms with scores are counted for now, so your
+          semester grade will shift as you add the rest.
         </p>
       ) : (
         <p className="mt-3 border-t border-line pt-3 text-[0.62rem] leading-relaxed text-faint">
-          All four terms are recorded. This semester grade is complete for the current
-          scheme.
+          All four terms are recorded. This is your semester grade.
         </p>
       )}
       {subject.semester ? (
@@ -375,17 +374,17 @@ function AssignSchemePanel({ subject, schemes, onAssign, assigning }) {
           <AlertTriangle size={17} />
         </span>
         <div className="min-w-0 flex-1">
-          <h2 className="text-sm font-semibold text-warning">Assign a grading scheme</h2>
+          <h2 className="text-sm font-semibold text-warning">Choose a grade setup</h2>
           <p className="mt-1 text-xs leading-relaxed text-warning/85">
-            This subject doesn't have a scheme right now, so scores can't be computed.
-            Pick one below to restore its grades.
+            This course doesn't have a grade setup right now, so scores can't be
+            calculated. Pick one below to bring its grades back.
           </p>
           {schemes.length > 0 ? (
             <div className="mt-3 flex flex-col gap-2 sm:flex-row">
               <Select
                 value={selected}
                 onChange={(event) => setSelected(event.target.value)}
-                aria-label="Grading scheme"
+                aria-label="Grade setup"
                 className="sm:max-w-xs"
               >
                 {schemes.map((scheme) => (
@@ -400,12 +399,12 @@ function AssignSchemePanel({ subject, schemes, onAssign, assigning }) {
                 disabled={!selected}
                 onClick={() => onAssign(selected)}
               >
-                Save scheme
+                Save setup
               </Button>
             </div>
           ) : (
             <Link to="/app/schemes?new=1" className="btn btn-secondary btn-sm mt-3">
-              Create a scheme first
+              Create a setup first
             </Link>
           )}
         </div>
@@ -446,10 +445,10 @@ export default function SubjectDetail() {
   useSeo({
     title: subject
       ? pageTitle(`${subject.code} — ${subject.name}`)
-      : pageTitle("Subject"),
+      : pageTitle("Course"),
     description: subject
-      ? `Scores, term grades, and semester projection for ${subject.code} ${subject.name} in Gradely.`
-      : "Track scores and grades for this subject in Gradely.",
+      ? `Scores, term grades, and semester grade for ${subject.code} ${subject.name} in Gradely.`
+      : "Track scores and grades for this course in Gradely.",
     path: `/app/subjects/${subjectId || ""}`,
     noindex: true,
   });
@@ -471,7 +470,7 @@ export default function SubjectDetail() {
 
   const currentStatus = statusFor(current?.percentage);
 
-  if (loading) return <LoadingScreen label="Loading subject…" />;
+  if (loading) return <LoadingScreen label="Loading course…" />;
 
   if (!subject) {
     return (
@@ -479,12 +478,12 @@ export default function SubjectDetail() {
         <span className="mx-auto grid h-12 w-12 place-items-center rounded-2xl bg-surface-2 text-faint">
           <BookOpen size={22} />
         </span>
-        <h1 className="mt-4 text-xl font-semibold text-ink">Subject not found</h1>
+        <h1 className="mt-4 text-xl font-semibold text-ink">Course not found</h1>
         <p className="mt-2 text-sm text-muted">
-          This subject may have been deleted, or the link is incorrect.
+          This course may have been deleted, or the link is incorrect.
         </p>
         <Link to="/app/subjects" className="btn btn-primary mt-5">
-          Back to subjects
+          Back to courses
         </Link>
       </div>
     );
@@ -499,10 +498,10 @@ export default function SubjectDetail() {
     setDeleting(true);
     try {
       await removeSubject(subject.id);
-      toast.success("Subject deleted.");
+      toast.success("Course deleted.");
       navigate("/app/subjects", { replace: true });
     } catch (error) {
-      toast.error(error?.message || "Could not delete the subject.");
+      toast.error(error?.message || "Could not delete the course.");
       setDeleting(false);
     }
   };
@@ -533,9 +532,9 @@ export default function SubjectDetail() {
         semester: subject.semester,
         school_year: subject.school_year,
       });
-      toast.success("Grading scheme assigned.");
+      toast.success("Grade setup saved.");
     } catch (error) {
-      toast.error(error?.message || "Could not assign the scheme.");
+      toast.error(error?.message || "Could not save the grade setup.");
     } finally {
       setAssigning(false);
     }
@@ -549,7 +548,7 @@ export default function SubjectDetail() {
           className="inline-flex items-center gap-1.5 text-xs font-semibold text-muted transition hover:text-ink"
         >
           <ArrowLeft size={14} />
-          All subjects
+          All courses
         </Link>
 
         <div className="mt-3 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
@@ -561,12 +560,12 @@ export default function SubjectDetail() {
               {hasLab ? (
                 <span className="chip !py-1 !text-[0.6rem]">
                   <FlaskConical size={10} className="text-accent" />
-                  Lecture + Lab
+                  Class + Lab
                 </span>
               ) : (
                 <span className="chip !py-1 !text-[0.6rem]">
                   <BookOpen size={10} className="text-accent" />
-                  Lecture only
+                  No lab
                 </span>
               )}
               <span className="chip !py-1 !text-[0.6rem]">{subject.units} units</span>
@@ -584,7 +583,7 @@ export default function SubjectDetail() {
                   {scheme.title}
                 </Link>
               ) : (
-                <span className="text-warning">No scheme assigned</span>
+                <span className="text-warning">No grade setup</span>
               )}
               <span className="inline-flex items-center gap-1">
                 <CalendarDays size={11} />
@@ -672,7 +671,7 @@ export default function SubjectDetail() {
           {current ? (
             <>
               <BreakdownCard
-                title="Lecture components"
+                title="Class activities"
                 icon={BookOpen}
                 trackWeight={lectureWeight}
                 stats={current.lecture}
@@ -680,7 +679,7 @@ export default function SubjectDetail() {
               />
               {hasLab ? (
                 <BreakdownCard
-                  title="Laboratory components"
+                  title="Lab activities"
                   icon={FlaskConical}
                   trackWeight={labWeight}
                   stats={current.lab}
@@ -697,7 +696,7 @@ export default function SubjectDetail() {
                   {termLabel(term)} scores
                 </h2>
                 <p className="mt-0.5 text-xs text-muted">
-                  {termEntries.length} assessment{termEntries.length === 1 ? "" : "s"} recorded
+                  {termEntries.length} score{termEntries.length === 1 ? "" : "s"} recorded
                 </p>
               </div>
               <span className="chip !py-1 !text-[0.6rem]">
@@ -710,7 +709,7 @@ export default function SubjectDetail() {
                 <p className="text-sm font-semibold text-ink">No scores yet</p>
                 <p className="mx-auto mt-1 max-w-xs text-xs leading-relaxed text-muted">
                   Add your first {termLabel(term).toLowerCase()} score using the form, and
-                  your grade will compute instantly.
+                  your grade will update right away.
                 </p>
               </div>
             ) : (
@@ -790,8 +789,8 @@ export default function SubjectDetail() {
         onClose={() => setDeleteOpen(false)}
         onConfirm={handleDelete}
         loading={deleting}
-        title="Delete this subject?"
-        confirmLabel="Delete subject"
+        title="Delete this course?"
+        confirmLabel="Delete course"
         description={`“${subject.code} — ${subject.name}” and all ${entries.length} recorded score${
           entries.length === 1 ? "" : "s"
         } will be permanently deleted. This cannot be undone.`}
@@ -808,7 +807,7 @@ export default function SubjectDetail() {
           entryToDelete
             ? `Remove ${entryToDelete.label || componentName(scheme, entryToDelete.category)} (${formatScore(
                 entryToDelete.score,
-              )} / ${formatScore(entryToDelete.max_score)}) from ${termLabel(entryToDelete.term)}? Your grades will recompute immediately.`
+              )} / ${formatScore(entryToDelete.max_score)}) from ${termLabel(entryToDelete.term)}? Your grades will update right away.`
             : ""
         }
       />

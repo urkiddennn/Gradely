@@ -18,15 +18,14 @@ create table if not exists public.grading_schemes (
   lab_weight numeric default 40 not null,
   term_weights jsonb default '{"prelim":25,"midterm":25,"prefinal":25,"final_exam":25}'::jsonb not null,
   lecture_components jsonb default '[
-    {"id":"lec_quiz","name":"Short Quizzes","weight":10},
-    {"id":"lec_sgd","name":"Small Group Discussion","weight":30},
-    {"id":"lec_chapter_exam","name":"Chapter Exam","weight":20},
-    {"id":"lec_term_exam","name":"Term Exam","weight":40}
+    {"id":"lec_quiz","name":"Quizzes","weight":20},
+    {"id":"lec_assignment","name":"Assignments","weight":20},
+    {"id":"lec_project","name":"Projects","weight":20},
+    {"id":"lec_exam","name":"Exams","weight":40}
   ]'::jsonb not null,
   lab_components jsonb default '[
-    {"id":"lab_preconf","name":"Pre-Conference","weight":10},
-    {"id":"lab_postconf","name":"Post-Conference","weight":10},
-    {"id":"lab_manual","name":"Lab Manual","weight":30},
+    {"id":"lab_attendance","name":"Attendance","weight":10},
+    {"id":"lab_report","name":"Lab Reports","weight":40},
     {"id":"lab_practical","name":"Practical Exam","weight":50}
   ]'::jsonb not null,
   created_at timestamptz default timezone('utc'::text, now()) not null,
@@ -37,18 +36,31 @@ create table if not exists public.grading_schemes (
 alter table public.grading_schemes
   add column if not exists term_weights jsonb default '{"prelim":25,"midterm":25,"prefinal":25,"final_exam":25}'::jsonb,
   add column if not exists lecture_components jsonb default '[
-    {"id":"lec_quiz","name":"Short Quizzes","weight":10},
-    {"id":"lec_sgd","name":"Small Group Discussion","weight":30},
-    {"id":"lec_chapter_exam","name":"Chapter Exam","weight":20},
-    {"id":"lec_term_exam","name":"Term Exam","weight":40}
+    {"id":"lec_quiz","name":"Quizzes","weight":20},
+    {"id":"lec_assignment","name":"Assignments","weight":20},
+    {"id":"lec_project","name":"Projects","weight":20},
+    {"id":"lec_exam","name":"Exams","weight":40}
   ]'::jsonb,
   add column if not exists lab_components jsonb default '[
-    {"id":"lab_preconf","name":"Pre-Conference","weight":10},
-    {"id":"lab_postconf","name":"Post-Conference","weight":10},
-    {"id":"lab_manual","name":"Lab Manual","weight":30},
+    {"id":"lab_attendance","name":"Attendance","weight":10},
+    {"id":"lab_report","name":"Lab Reports","weight":40},
     {"id":"lab_practical","name":"Practical Exam","weight":50}
   ]'::jsonb,
   add column if not exists updated_at timestamptz default timezone('utc'::text, now());
+
+-- Refresh the defaults for future direct inserts as well
+alter table public.grading_schemes
+  alter column lecture_components set default '[
+    {"id":"lec_quiz","name":"Quizzes","weight":20},
+    {"id":"lec_assignment","name":"Assignments","weight":20},
+    {"id":"lec_project","name":"Projects","weight":20},
+    {"id":"lec_exam","name":"Exams","weight":40}
+  ]'::jsonb,
+  alter column lab_components set default '[
+    {"id":"lab_attendance","name":"Attendance","weight":10},
+    {"id":"lab_report","name":"Lab Reports","weight":40},
+    {"id":"lab_practical","name":"Practical Exam","weight":50}
+  ]'::jsonb;
 
 -- ------------------------------------------------------------
 -- 2. Scale mappings
