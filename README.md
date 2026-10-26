@@ -16,6 +16,8 @@ place.
 - **Student accounts** — Supabase email/password auth with Row Level Security on every
   table. Students can only read and write their own data.
 - **Dark and light mode**, mobile-first dashboard, and no spreadsheet maintenance.
+- **Guided dashboard tour** — a first-visit walkthrough built with Driver.js, restartable
+  from the menu at any time.
 - **SEO ready** — semantic landing page, Open Graph/Twitter images, structured data
   (`WebApplication` + `FAQPage`), `robots.txt`, and a sitemap.
 
@@ -26,6 +28,7 @@ place.
 - Supabase (`@supabase/supabase-js`)
 - Lucide React icons
 - React Router
+- Driver.js product tour
 
 ## Run locally
 
@@ -136,6 +139,7 @@ npm run preview
 src/
   components/       UI primitives, app shell, forms, scheme editor, subject card
   context/          Auth, data, theme, toast providers
+  hooks/            Dashboard Driver.js tour
   lib/              Supabase client, grading engine, SEO hook, utilities
   pages/            Landing, Auth, Dashboard, Subjects, SubjectDetail, Schemes
   App.jsx           Route guards and lazy-loaded routes

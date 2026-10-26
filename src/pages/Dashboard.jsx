@@ -35,6 +35,7 @@ import {
 import { Button, EmptyState } from "../components/ui";
 import { SubjectCard } from "../components/SubjectCard";
 import { SubjectForm } from "../components/SubjectForm";
+import { useDashboardTour } from "../hooks/useDashboardTour";
 
 const SUMMARY_TONES = {
   accent: "bg-accent-soft text-accent-ink",
@@ -105,7 +106,10 @@ function DashboardSkeleton() {
 
 function Onboarding({ onCreateStarter, creating }) {
   return (
-    <section className="relative overflow-hidden rounded-2xl border border-accent/20 bg-accent-soft/70 p-6 sm:p-8">
+    <section
+      className="relative overflow-hidden rounded-2xl border border-accent/20 bg-accent-soft/70 p-6 sm:p-8"
+      data-tour="onboarding"
+    >
       <div
         className="pointer-events-none absolute inset-0 bg-grid opacity-40"
         aria-hidden="true"
@@ -226,7 +230,7 @@ function RecentScores({ entries, subjectById, schemesById }) {
 function SchemeSnapshot({ scheme }) {
   const normalized = normalizeScheme(scheme);
   return (
-    <div className="card flex h-full flex-col">
+    <div className="card flex h-full flex-col" data-tour="setup">
       <div className="flex items-center justify-between gap-3 border-b border-line px-5 py-4">
         <div>
           <h2 className="text-sm font-semibold text-ink">Your grade setup</h2>
@@ -352,6 +356,8 @@ export default function Dashboard() {
     noindex: true,
   });
 
+  useDashboardTour(!loading);
+
   const handleStarter = async () => {
     setCreatingStarter(true);
     try {
@@ -375,7 +381,7 @@ export default function Dashboard() {
   return (
     <div className="space-y-7 animate-fade-up">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-        <div>
+        <div data-tour="welcome">
           <p className="text-[0.68rem] font-bold uppercase tracking-[0.14em] text-faint">
             {today}
           </p>
@@ -388,7 +394,7 @@ export default function Dashboard() {
               : "Let's get your first course onto the board."}
           </p>
         </div>
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2" data-tour="actions">
           <Link to="/app/schemes" className="btn btn-secondary btn-sm">
             <SlidersHorizontal size={14} />
             Setups
@@ -414,7 +420,7 @@ export default function Dashboard() {
         <Onboarding onCreateStarter={handleStarter} creating={creatingStarter} />
       ) : null}
 
-      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4" data-tour="summary">
         <SummaryCard
           label="Overall average"
           value={formatGradePoint(year.gwa)}
@@ -457,7 +463,7 @@ export default function Dashboard() {
         />
       </div>
 
-      <section>
+      <section data-tour="courses">
         <div className="mb-3 flex items-end justify-between gap-3">
           <div>
             <h2 className="text-base font-semibold tracking-[-0.02em] text-ink">
@@ -508,7 +514,7 @@ export default function Dashboard() {
       </section>
 
       <div className="grid gap-5 lg:grid-cols-3">
-        <div className="lg:col-span-2">
+        <div className="lg:col-span-2" data-tour="recent">
           <RecentScores
             entries={recent}
             subjectById={subjectById}

@@ -6,6 +6,7 @@ import {
   ChevronRight,
   LayoutDashboard,
   LogOut,
+  Map,
   Menu,
   Moon,
   RefreshCw,
@@ -46,9 +47,26 @@ function ThemeButton({ compact = false }) {
   );
 }
 
+function TourLink({ onNavigate }) {
+  return (
+    <Link
+      to="/app?tour=1"
+      onClick={onNavigate}
+      className="flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm font-medium text-muted transition hover:bg-surface-2 hover:text-ink"
+    >
+      <Map size={17} />
+      Take a tour
+    </Link>
+  );
+}
+
 function SidebarNav({ subjectsCount, schemesCount, onNavigate }) {
   return (
-    <nav className="flex-1 space-y-1 px-3" onClick={onNavigate}>
+    <nav
+      className="flex-1 space-y-1 px-3"
+      onClick={onNavigate}
+      data-tour="sidebar-nav"
+    >
       <p className="px-3 pb-2 pt-4 text-[0.63rem] font-bold uppercase tracking-[0.16em] text-faint">
         Menu
       </p>
@@ -180,13 +198,14 @@ export function AppShell() {
           onNavigate={() => {}}
         />
 
-        <div className="space-y-2 border-t border-line p-3">
+        <div className="space-y-1 border-t border-line p-3">
           {schemaMissing ? (
             <div className="flex items-center gap-2 rounded-xl border border-warning/25 bg-warning-soft px-3 py-2 text-[0.7rem] font-semibold text-warning">
               <AlertCircle size={14} />
               Finish setup
             </div>
           ) : null}
+          <TourLink />
           <ThemeButton />
           <UserCard onSignOut={handleSignOut} />
           <p className="px-1 pt-1 text-center text-[0.62rem] text-faint">
@@ -208,6 +227,7 @@ export function AppShell() {
             className="grid h-9 w-9 place-items-center rounded-xl text-ink transition hover:bg-surface-2"
             aria-label="Open navigation"
             aria-expanded={mobileOpen}
+            data-tour="mobile-menu"
           >
             <Menu size={20} />
           </button>
@@ -239,7 +259,8 @@ export function AppShell() {
               schemesCount={schemes.length}
               onNavigate={() => setMobileOpen(false)}
             />
-            <div className="space-y-2 border-t border-line p-3">
+            <div className="space-y-1 border-t border-line p-3">
+              <TourLink onNavigate={() => setMobileOpen(false)} />
               <UserCard onSignOut={handleSignOut} />
               <p className="pb-1 text-center text-[0.62rem] text-faint">
                 Gradely · Built for students
